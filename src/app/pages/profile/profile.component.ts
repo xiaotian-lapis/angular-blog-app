@@ -15,13 +15,13 @@ const LAST_UPDATED_DATE_COOKIE_NAME = 'lastUpdatedDate';
     ],
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.css'],
-    providers: [DatePipe]  // Add DatePipe to the component providers
+    providers: [DatePipe]
 })
 export class ProfileComponent {
     profileForm = new FormGroup({
-        name: new FormControl('', Validators.required),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        bio: new FormControl(''),
+        name: new FormControl<string>('', Validators.required),
+        email: new FormControl<string>('', [Validators.required, Validators.email]),
+        bio: new FormControl<string|null>(''),
     });
 
     constructor(private datePipe: DatePipe, private cookieService: CookieService, private readonly location: Location) {
@@ -32,7 +32,7 @@ export class ProfileComponent {
         if (!lastEdited) {
             return 'Not updated yet';
         }
-        const formattedDate = this.datePipe.transform(lastEdited, 'yyyy-MM-dd HH:mm:ss');
+        const formattedDate = this.datePipe.transform(lastEdited, 'dd/MM/yyyy HH:mm:ss');
         return formattedDate ?? 'not valid date';
     }
 

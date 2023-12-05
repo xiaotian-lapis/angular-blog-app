@@ -1,7 +1,6 @@
-<h2>Blogs:</h2>
-
 <div class="blog-list">
     <ng-container *ngFor="let blog of blogList">
+        <hr>
         <article class="blog-item">
             <h3>
                 <a [routerLink]="['/blog', blog.id]" title="Read more about {{ blog.title }}">

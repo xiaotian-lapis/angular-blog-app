@@ -3,7 +3,7 @@
         <div class="form-group">
             <label for="name">Name:</label>
             <input id="name" type="text" formControlName="name" class="form-control">
-            <!-- Display validation error if the name field is touched and invalid -->
+
             <div *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.invalid">
                 <small class="form-text text-danger">Name is required.</small>
             </div>
@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="email">Email:</label>
             <input id="email" type="email" formControlName="email" class="form-control">
-            <!-- Display validation error if the email field is touched and invalid -->
+
             <div *ngIf="profileForm.get('email')?.touched && profileForm.get('email')?.invalid">
                 <small class="form-text text-danger">Enter a valid email.</small>
             </div>
@@ -26,10 +26,10 @@
         <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
     </form>
     <hr>
-    <footer class="last-edited">
+    <div class="last-edited">
         <div>
             Last Edited: {{ getLastEdited() }}
         </div>
         <button (click)="goBack()">Go Back</button>
-    </footer>
+    </div>
 </div>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {dummyBlogList} from "../../data/dummyBlogList";
-import {DummyDataItemType} from "../../types/dataTypes";
+import {DummyDataItemType} from "../../types/data.type";
 import { Location } from '@angular/common';
 
 @Component({

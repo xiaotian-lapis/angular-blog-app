@@ -1,4 +1,4 @@
-import {DummyDataListType} from "../types/dataTypes";
+import {DummyDataListType} from "../types/data.type";
 
 export const dummyBlogList : DummyDataListType = [
   {
