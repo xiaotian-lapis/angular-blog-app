@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {Blog} from "../../shared/models/blog.model";
-import {Observable} from "rxjs";
+import {first, Observable} from "rxjs";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
 import {Store} from "@ngrx/store";
+import {BlogActions} from "../../state/actions/blog.action";
 
 @Component({
     selector: 'blog-list',
@@ -23,6 +24,15 @@ export class BlogListComponent implements OnInit {
 
     ngOnInit(): void {
         this.blogList$ = this.store.select(selectAllBlogs);
-        // Optionally, dispatch an action to load blogs if they are not loaded yet
+        // debug
+        this.blogList$.pipe().subscribe((blogs) => {
+            console.log(blogs);
+        });
+    }
+
+    deleteBlog(blogId: string): void {
+        this.store.dispatch(BlogActions.removeBlog({
+            id: blogId
+        }));
     }
 }

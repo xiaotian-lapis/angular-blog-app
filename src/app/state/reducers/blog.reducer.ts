@@ -15,15 +15,27 @@ export const initialState: BlogState = adapter.getInitialState();
 // Create the reducer
 export const blogReducer = createReducer(
     initialState,
-    on(BlogApiActions.retrievedBlogList, (state, { blogs }) => adapter.setAll(blogs, state)),
+    on(BlogApiActions.retrievedBlogList, (state, { blogs }) => {
+        console.log("retrievedBlogList reducer triggered")
+        console.log(state.entities)
+        return adapter.setAll(blogs, state);
+    }),
     on(BlogActions.addBlog, (state, { id, author, title, description, content, createdTime }) => {
+        console.log("addBlog reducer triggered")
+        console.log(state.entities)
         const newBlog: Blog = { id, author, title, description, content, createdTime, updatedTime: createdTime };
         return adapter.addOne(newBlog, state);
     }),
     on(BlogActions.updateBlog, (state, { id, author, title, description, content, updatedTime }) => {
+        console.log("updateBlog reducer triggered")
+        console.log(state.entities)
         const changes = { author, title, description, content, updatedTime };
         return adapter.updateOne({ id, changes }, state);
     }),
-    on(BlogActions.removeBlog, (state, { id }) => adapter.removeOne(id, state)),
+    on(BlogActions.removeBlog, (state, { id }) => {
+        console.log("removeBlog reducer triggered")
+        console.log(state.entities)
+        return adapter.removeOne(id, state);
+    }),
     on(BlogApiActions.retrievedBlog, (state, { blog }) => adapter.upsertOne(blog, state))
 );

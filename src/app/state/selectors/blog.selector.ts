@@ -10,5 +10,5 @@ export const {
     selectIds: selectBlogIds,
     selectEntities: selectBlogEntities,
     selectAll: selectAllBlogs,
-    selectTotal: selectTotalBlogs
+    selectTotal: selectTotalBlogs,
 } = adapter.getSelectors(selectBlogState);

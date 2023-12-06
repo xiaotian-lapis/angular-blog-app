@@ -12,6 +12,9 @@
             <a [routerLink]="['/edit-blog', blog.id]" title="Edit">
                 Edit
             </a>
+            <button (click)="deleteBlog(blog.id)" title="Delete">
+                delete
+            </button>
         </article>
     </ng-container>
 </div>
