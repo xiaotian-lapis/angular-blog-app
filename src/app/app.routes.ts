@@ -10,5 +10,5 @@ export const routes: Routes = [
     {path: 'blog/:id', component: BlogContentComponent},
     {path: 'profile', component: ProfileComponent},
     {path: 'edit-blog/:id', component: BlogEditComponent},
-    { path: 'create-blog', component: BlogEditComponent },
+    {path: 'create-blog', component: BlogEditComponent},
 ];

@@ -20,7 +20,9 @@ import {BlogActions} from "../../state/actions/blog.action";
 })
 export class BlogListComponent implements OnInit {
     blogList$: Observable<Blog[]> = this.store.select(selectAllBlogs);
-    constructor(private store: Store) {}
+
+    constructor(private store: Store) {
+    }
 
     ngOnInit(): void {
         this.blogList$ = this.store.select(selectAllBlogs);

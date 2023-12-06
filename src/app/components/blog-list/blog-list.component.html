@@ -3,17 +3,18 @@
         <hr>
         <article class="blog-item">
             <h3>
-                <a [routerLink]="['/blog', blog.id]" title="Read more about {{ blog.title }}">
-                    {{ blog.title }}
-                </a>
+                {{ blog.title }}
             </h3>
-            <h4>{{ blog.author }}</h4>
-            <p>{{ blog.description }}</p>
-            <a [routerLink]="['/edit-blog', blog.id]" title="Edit">
+            <h4 class="blog-author">{{ blog.author }}</h4>
+            <p class="blog-description">{{ blog.description }}</p>
+            <a [routerLink]="['/blog', blog.id]" title="Read more about {{ blog.title }}" class="view-link">
+                View
+            </a>
+            <a [routerLink]="['/edit-blog', blog.id]" title="Edit" class="edit-link">
                 Edit
             </a>
-            <button (click)="deleteBlog(blog.id)" title="Delete">
-                delete
+            <button (click)="deleteBlog(blog.id)" title="Delete" class="delete-button">
+                Delete
             </button>
         </article>
     </ng-container>

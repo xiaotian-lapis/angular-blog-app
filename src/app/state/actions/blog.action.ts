@@ -28,7 +28,6 @@ export const BlogActions = createActionGroup({
             createdTime: Date,
             updatedTime: Date,
         }>(),
-        'Get Blog by ID': props<{ id: string }>(),
     },
 
 });

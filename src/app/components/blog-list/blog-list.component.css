@@ -1,3 +1,73 @@
+/* Blog List Styles */
+.blog-list {
+    margin: 20px;
+}
+
 .blog-item {
-  margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Blog Title Styles */
+.blog-title a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.blog-title a:hover {
+    text-decoration: underline;
+}
+
+/* Blog Author Styles */
+.blog-author {
+    margin-top: 5px;
+    color: #777;
+}
+
+/* Blog Description Styles */
+.blog-description {
+    margin-top: 10px;
+}
+
+/* Blog Actions Styles */
+.blog-actions {
+    margin-top: 10px;
+}
+
+.edit-link {
+    text-decoration: none;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* View Link Styles */
+.view-link {
+    text-decoration: none;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.view-link:hover {
+    text-decoration: underline;
 }

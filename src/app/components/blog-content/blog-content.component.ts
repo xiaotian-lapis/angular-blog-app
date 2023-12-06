@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {DummyDataItemType} from "../../shared/types/data.type";
-import { Location } from '@angular/common';
-import {BlogService} from "../../shared/services/blog.service";
+import {DatePipe, Location} from '@angular/common';
+import {Store} from "@ngrx/store";
+import {selectAllBlogs} from "../../state/selectors/blog.selector";
 
 @Component({
     selector: 'blog-content',
     standalone: true,
     imports: [
-        RouterLink
+        RouterLink,
+        DatePipe
     ],
     templateUrl: './blog-content.component.html',
     styleUrl: './blog-content.component.css'
@@ -17,10 +18,16 @@ export class BlogContentComponent implements OnInit {
     blogId: string = "";
     blogContent: string = "";
     blogTitle: string = "";
+    createdTime: Date = new Date();
+    updatedTime: Date = new Date();
+    blogAuthor: string = "";
     private readonly canGoBack: boolean;
 
-
-    constructor(private route: ActivatedRoute, private router: Router, private readonly location: Location, private blogService: BlogService) {
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private readonly location: Location,
+                private store: Store,
+    ) {
         // https://stackoverflow.com/questions/35446955/how-to-go-back-last-page
         this.canGoBack = !!(this.router.getCurrentNavigation()?.previousNavigation);
     }
@@ -28,10 +35,20 @@ export class BlogContentComponent implements OnInit {
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
             this.blogId = params.get('id')!;
-            const blogData: DummyDataItemType = this.blogService.findBlogById(this.blogId);
-
-            this.blogContent = blogData.content;
-            this.blogTitle = blogData.title;
+            this.store.select(selectAllBlogs)
+                .subscribe(blogs => {
+                    if (blogs) {
+                        // find blog by id
+                        const blog = blogs.find(b => b.id === this.blogId);
+                        if (blog) {
+                            this.blogContent = blog.content;
+                            this.blogTitle = blog.title;
+                            this.createdTime = blog.createdTime;
+                            this.updatedTime = blog.updatedTime;
+                            this.blogAuthor = blog.author;
+                        }
+                    }
+                })
         });
     }
 

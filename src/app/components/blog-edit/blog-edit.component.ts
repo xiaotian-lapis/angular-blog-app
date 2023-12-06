@@ -4,9 +4,8 @@ import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angula
 import {Store} from "@ngrx/store";
 import {BlogActions} from "../../state/actions/blog.action";
 import {ActivatedRoute, Router} from "@angular/router";
-import {DummyDataItemType} from "../../shared/types/data.type";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
-import {filter, find, first} from "rxjs";
+import {genRandomId} from "../../shared/utils/random.util";
 
 @Component({
     selector: 'app-blog-edit',
@@ -72,7 +71,7 @@ export class BlogEditComponent implements OnInit {
 
         console.log(this.blogForm.value)
         console.log("this log ercord: ", this.blog);
-        const randomId = Math.random().toString(36).substring(2, 12);
+        const randomId = genRandomId();
 
         const blogData: Blog = {
             id: this.blog?.id || randomId,
@@ -96,6 +95,10 @@ export class BlogEditComponent implements OnInit {
 
         // jump back to home page
         this.router.navigate(['/home']);
+    }
+
+    goBack(): void {
+        this.router.navigate(['..'], {relativeTo: this.route});
     }
 
 }
