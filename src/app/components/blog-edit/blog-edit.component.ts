@@ -61,20 +61,18 @@ export class BlogEditComponent implements OnInit {
                             }
                         );
                     }
-                    // debug
+                    // TODO debug need to remove
                     console.log("blog: ", this.blog);
                 });
         });
     }
 
     onSubmit(): void {
-
+        // TODO debug need to remove
         console.log(this.blogForm.value)
-        console.log("this log ercord: ", this.blog);
-        const randomId = genRandomId();
 
         const blogData: Blog = {
-            id: this.blog?.id || randomId,
+            id: this.blog?.id || genRandomId(),
             title: this.blogForm.value.title || 'Default Title',
             description: this.blogForm.value.description || 'No Description',
             content: this.blogForm.value.content || 'No Content',
@@ -84,11 +82,11 @@ export class BlogEditComponent implements OnInit {
         };
 
         if (this.blog) {
-            // Dispatch update action
+            // TODO debug need to remove
             console.log("update")
             this.store.dispatch(BlogActions.updateBlog({...blogData}));
         } else {
-            // Dispatch add action
+            // TODO debug need to remove
             console.log("add")
             this.store.dispatch(BlogActions.addBlog({...blogData}));
         }

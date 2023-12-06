@@ -25,13 +25,14 @@ export class BlogListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        // try to select all blogs from store
         this.blogList$ = this.store.select(selectAllBlogs);
-        // debug
-        this.blogList$.pipe().subscribe((blogs) => {
-            console.log(blogs);
-        });
     }
 
+    /**
+     * Delete blog by id
+     * @param blogId blog id
+     */
     deleteBlog(blogId: string): void {
         this.store.dispatch(BlogActions.removeBlog({
             id: blogId

@@ -1,3 +1,6 @@
+/**
+ * Blog model
+ */
 export interface Blog {
     id: string;
     author: string;

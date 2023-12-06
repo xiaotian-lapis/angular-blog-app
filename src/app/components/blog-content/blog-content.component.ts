@@ -52,6 +52,9 @@ export class BlogContentComponent implements OnInit {
         });
     }
 
+    /**
+     * Go back to previous page
+     */
     goBack(): void {
         if (this.canGoBack) {
             // We can safely go back to the previous location as
