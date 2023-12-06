@@ -6,6 +6,7 @@ import {BlogActions} from "../../state/actions/blog.action";
 import {ActivatedRoute, Router} from "@angular/router";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
 import {genRandomId} from "../../shared/utils/random.util";
+import {filter, map} from "rxjs";
 
 @Component({
     selector: 'app-blog-edit',
@@ -48,22 +49,17 @@ export class BlogEditComponent implements OnInit {
             // get request parameter
             const blogId = params.get('id')!;
             // select blogs from store
-            this.store.select(selectAllBlogs)
-                .subscribe(blogs => {
-                    if (blogs) {
-                        // find blog by id
-                        this.blog = blogs.find(b => b.id === blogId);
-                        this.blogForm.patchValue({
-                                title: this.blog?.title,
-                                description: this.blog?.description,
-                                content: this.blog?.content,
-                                author: this.blog?.author,
-                            }
-                        );
-                    }
-                    // TODO debug need to remove
-                    console.log("blog: ", this.blog);
+            this.store.select(selectAllBlogs).pipe(
+                map(blogs => blogs.find(blog => blog.id === blogId))
+            ).subscribe(blog => {
+                this.blog = blog;
+                this.blogForm.patchValue({
+                    title: blog?.title,
+                    description: blog?.description,
+                    content: blog?.content,
+                    author: blog?.author,
                 });
+            });
         });
     }
 

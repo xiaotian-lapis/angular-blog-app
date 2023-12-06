@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {Blog} from "../../shared/models/blog.model";
-import {first, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
 import {Store} from "@ngrx/store";
 import {BlogActions} from "../../state/actions/blog.action";

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {DatePipe, Location} from '@angular/common';
 import {Store} from "@ngrx/store";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
+import {map} from "rxjs";
 
 @Component({
     selector: 'blog-content',
@@ -15,7 +16,7 @@ import {selectAllBlogs} from "../../state/selectors/blog.selector";
     styleUrl: './blog-content.component.css'
 })
 export class BlogContentComponent implements OnInit {
-    blogId: string = "";
+
     blogContent: string = "";
     blogTitle: string = "";
     createdTime: Date = new Date();
@@ -34,21 +35,20 @@ export class BlogContentComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
-            this.blogId = params.get('id')!;
-            this.store.select(selectAllBlogs)
-                .subscribe(blogs => {
-                    if (blogs) {
-                        // find blog by id
-                        const blog = blogs.find(b => b.id === this.blogId);
-                        if (blog) {
-                            this.blogContent = blog.content;
-                            this.blogTitle = blog.title;
-                            this.createdTime = blog.createdTime;
-                            this.updatedTime = blog.updatedTime;
-                            this.blogAuthor = blog.author;
-                        }
-                    }
-                })
+            const blogId = params.get('id')!;
+
+            // get blog from store
+            this.store.select(selectAllBlogs).pipe(
+                map(blogs => blogs.find(blog => blog.id === blogId))
+            ).subscribe(blog => {
+                if (blog) {
+                    this.blogContent = blog.content;
+                    this.blogTitle = blog.title;
+                    this.createdTime = blog.createdTime;
+                    this.updatedTime = blog.updatedTime;
+                    this.blogAuthor = blog.author;
+                }
+            });
         });
     }
 
