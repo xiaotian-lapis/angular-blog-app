@@ -5,6 +5,7 @@ export interface DummyDataItemType {
   title: string;
   description: string;
   content: string;
+  createdTime: string;
 }
 
 // dummyDataList type declaration
