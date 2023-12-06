@@ -6,7 +6,7 @@ import {BlogActions} from "../../state/actions/blog.action";
 import {ActivatedRoute, Router} from "@angular/router";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
 import {genRandomId} from "../../shared/utils/random.util";
-import {filter, map} from "rxjs";
+import {map} from "rxjs";
 
 @Component({
     selector: 'app-blog-edit',

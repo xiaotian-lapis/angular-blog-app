@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 import {HeaderComponent} from "./components/header/header.component";
 import {FooterComponent} from "./components/footer/footer.component";
-import {StoreRootModule} from "./state/store.module";
 
 @Component({
     selector: 'app-root',
@@ -13,7 +12,6 @@ import {StoreRootModule} from "./state/store.module";
         RouterOutlet,
         HeaderComponent,
         FooterComponent,
-        StoreRootModule,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
