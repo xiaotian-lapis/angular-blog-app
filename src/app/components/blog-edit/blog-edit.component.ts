@@ -37,28 +37,25 @@ export class BlogEditComponent {
   constructor(private store: Store, private fb: FormBuilder) {}
 
   onSubmit(): void {
+    const randomId = Math.random().toString(36).substring(2, 12);
+
+    const blogData: Blog = {
+      id: this.blog?.id || randomId,
+      title: this.blogForm.value.title || 'Default Title',
+      description: this.blogForm.value.description || 'No Description',
+      content: this.blogForm.value.content || 'No Content',
+      author: this.blogForm.value.author || 'Anonymous',
+      createdTime: this.blog?.createdTime || new Date(),
+      updatedTime: new Date()
+    };
+
     if (this.blog) {
       // Dispatch update action
-      this.store.dispatch(BlogActions.updateBlog({
-        id: this.blog.id,
-        title: this.blogForm.value.title ?? '', // Provide default value
-        description: this.blogForm.value.description ?? '',
-        content: this.blogForm.value.content ?? '',
-        author: this.blogForm.value.author ?? 'Default Author', // Provide default value
-        updatedTime: new Date()
-      }));
+      this.store.dispatch(BlogActions.updateBlog({ ...blogData }));
     } else {
       // Dispatch add action
-      const newBlog: Blog = {
-        id: 'generate-id', // Replace with actual ID generation logic
-        title: this.blogForm.value.title ?? '',
-        description: this.blogForm.value.description ?? '',
-        content: this.blogForm.value.content ?? '',
-        author: this.blogForm.value.author ?? 'Default Author',
-        createdTime: new Date(),
-        updatedTime: new Date()
-      };
-      this.store.dispatch(BlogActions.addBlog(newBlog));
+      this.store.dispatch(BlogActions.addBlog({ ...blogData }));
     }
   }
+
 }

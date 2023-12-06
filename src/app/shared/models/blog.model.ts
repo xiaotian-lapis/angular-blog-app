@@ -5,5 +5,5 @@ export interface Blog {
     description: string;
     content: string;
     createdTime: Date;
-    updatedTime?: Date;
+    updatedTime: Date;
 }

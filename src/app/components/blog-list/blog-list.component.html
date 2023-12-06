@@ -1,5 +1,5 @@
 <div class="blog-list">
-    <ng-container *ngFor="let blog of blogList">
+    <ng-container *ngFor="let blog of blogList$ | async">
         <hr>
         <article class="blog-item">
             <h3>
@@ -9,6 +9,9 @@
             </h3>
             <h4>{{ blog.author }}</h4>
             <p>{{ blog.description }}</p>
+            <a [routerLink]="['/edit-blog', blog.id]" title="Edit">
+                Edit
+            </a>
         </article>
     </ng-container>
 </div>

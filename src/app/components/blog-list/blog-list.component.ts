@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import {BlogService} from "../../shared/services/blog.service";
-import {DummyDataListType} from "../../shared/types/data.type";
+import {Blog} from "../../shared/models/blog.model";
+import {Observable} from "rxjs";
+import {selectAllBlogs} from "../../state/selectors/blog.selector";
+import {Store} from "@ngrx/store";
 
 @Component({
     selector: 'blog-list',
@@ -10,17 +12,17 @@ import {DummyDataListType} from "../../shared/types/data.type";
     imports: [
         NgForOf,
         RouterLink,
+        AsyncPipe,
     ],
     templateUrl: './blog-list.component.html',
     styleUrl: './blog-list.component.css'
 })
 export class BlogListComponent implements OnInit {
-    blogList: DummyDataListType = [];
-
-    constructor(private blogService: BlogService) {
-    }
+    blogList$: Observable<Blog[]> = this.store.select(selectAllBlogs);
+    constructor(private store: Store) {}
 
     ngOnInit(): void {
-        this.blogList = this.blogService.getBlogList();
+        this.blogList$ = this.store.select(selectAllBlogs);
+        // Optionally, dispatch an action to load blogs if they are not loaded yet
     }
 }

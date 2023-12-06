@@ -14,6 +14,7 @@ export const BlogActions = createActionGroup({
             description: string,
             content: string,
             createdTime: Date,
+            updatedTime: Date,
         }>(),
         'Remove Blog': props<{
             id: string,
@@ -24,6 +25,7 @@ export const BlogActions = createActionGroup({
             title: string,
             description: string,
             content: string,
+            createdTime: Date,
             updatedTime: Date,
         }>(),
         'Get Blog by ID': props<{ id: string }>(),
