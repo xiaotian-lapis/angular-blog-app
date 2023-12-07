@@ -31,7 +31,7 @@ export class BlogEditComponent implements OnInit {
             nonNullable: true
         }),
         author: new FormControl<string>({
-            value: this.blog?.author || 'Default Author',
+            value: this.blog?.author || '',
             disabled: this.blog != null
         }, {
             nonNullable: true
@@ -64,25 +64,22 @@ export class BlogEditComponent implements OnInit {
     }
 
     onSubmit(): void {
-        // TODO debug need to remove
         console.log(this.blogForm.value)
 
         const blogData: Blog = {
             id: this.blog?.id || genRandomId(),
-            title: this.blogForm.value.title || 'Default Title',
-            description: this.blogForm.value.description || 'No Description',
-            content: this.blogForm.value.content || 'No Content',
-            author: this.blogForm.value.author || 'Anonymous',
+            title: this.blogForm.value.title || '',
+            description: this.blogForm.value.description || '',
+            content: this.blogForm.value.content || '',
+            author: this.blogForm.value.author || '',
             createdTime: this.blog?.createdTime || new Date(),
             updatedTime: new Date()
         };
 
         if (this.blog) {
-            // TODO debug need to remove
             console.log("update")
             this.store.dispatch(BlogActions.updateBlog({...blogData}));
         } else {
-            // TODO debug need to remove
             console.log("add")
             this.store.dispatch(BlogActions.addBlog({...blogData}));
         }

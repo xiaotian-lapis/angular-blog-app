@@ -7,6 +7,7 @@ import {blogReducer} from "./state/reducers/blog.reducer";
 import {provideEffects} from "@ngrx/effects";
 import {BlogEffects} from "./state/effects/blog.effects";
 import {provideHttpClient} from "@angular/common/http";
+import {BLOGS_STATE_NAME} from "./shared/constants/state.constant";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
         // enable ngrx store
         provideStore(),
         provideState({
-            name: 'blogs',
+            name: BLOGS_STATE_NAME,
             reducer: blogReducer,
         }),
         provideEffects([BlogEffects]),

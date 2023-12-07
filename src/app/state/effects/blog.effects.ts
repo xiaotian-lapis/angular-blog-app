@@ -9,7 +9,7 @@ import {selectBlogsInitialized} from "../selectors/blog.selector";
 export class BlogEffects {
     loadBlogs$ = createEffect(() => this.actions$.pipe(
         ofType('[Blog] Load Blogs'),
-        // check whether is already initialized
+        // concat another metadata from state to check whether is already initialized
         withLatestFrom(this.store.pipe(select(selectBlogsInitialized))),
         mergeMap((
             [_, isInitialized]: [any, boolean]
