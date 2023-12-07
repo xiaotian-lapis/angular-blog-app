@@ -1,27 +1,28 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="blogForm" class="blog-form">
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input class="form-control" formControlName="title" id="title" placeholder="Enter title" type="text">
-    </div>
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input class="form-control" formControlName="title" id="title" placeholder="Enter title" type="text">
+  </div>
 
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" formControlName="description" id="description" placeholder="Enter description"
-                  rows="4"></textarea>
-    </div>
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <textarea class="form-control" formControlName="description" id="description" placeholder="Enter description"
+              rows="4"></textarea>
+  </div>
 
-    <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea class="form-control" formControlName="content" id="content" placeholder="Enter content"
-                  rows="6"></textarea>
-    </div>
+  <div class="form-group">
+    <label for="content">Content:</label>
+    <textarea class="form-control" formControlName="content" id="content" placeholder="Enter content"
+              rows="6"></textarea>
+  </div>
 
-    <div class="form-group">
-        <label for="author">Author:</label>
-        <input [disabled]="blog != null" class="form-control" formControlName="author" id="author" placeholder="Enter author name"
-               type="text">
-    </div>
+  <div class="form-group">
+    <label for="author">Author:</label>
+    <input [disabled]="blog != null" class="form-control" formControlName="author" id="author"
+           placeholder="Enter author name"
+           type="text">
+  </div>
 
-    <button class="btn btn-primary" type="submit">Submit</button>
-    <button (click)="goBack()" class="btn">Go back</button>
+  <button class="btn btn-primary" type="submit">Submit</button>
+  <button (click)="goBack()" class="btn">Go back</button>
 </form>

@@ -1,45 +1,45 @@
 /* Styling for the container */
 .container_content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* Styling for the title */
 .content_title h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .content_title hr {
-    border: 1px solid #ccc;
+  border: 1px solid #ccc;
 }
 
 /* Styling for the content */
 .content p {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
 }
 
 /* Styling for the metadata */
 .metadata p {
-    font-size: 14px;
-    color: #777;
-    margin: 5px 0;
+  font-size: 14px;
+  color: #777;
+  margin: 5px 0;
 }
 
 /* Styling for the "Go Back" button */
 .button-group button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
 }
 
 .button-group button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }

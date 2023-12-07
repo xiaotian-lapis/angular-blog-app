@@ -1,41 +1,41 @@
 <div class="blog-list">
-    <!-- Loading Indicator -->
-    <div *ngIf="loading$ | async" class="loading">
-        Loading blogs...
-    </div>
+  <!-- Loading Indicator -->
+  <div *ngIf="loading$ | async" class="loading">
+    Loading blogs...
+  </div>
 
-    <!-- Error Message -->
-    <div *ngIf="error$ | async as error" class="error">
-        Error: {{ error }}
-    </div>
+  <!-- Error Message -->
+  <div *ngIf="error$ | async as error" class="error">
+    Error: {{ error }}
+  </div>
 
-    <!-- Blog List -->
-    <ng-container *ngIf="(blogList$ | async) as blogs; else noBlogsTemplate">
-        <ng-container *ngFor="let blog of blogs">
-            <hr>
-            <article class="blog-item">
-                <h3>
-                    {{ blog.title }}
-                </h3>
-                <h4 class="blog-author">{{ blog.author }}</h4>
-                <p class="blog-description">{{ blog.description }}</p>
-                <a [routerLink]="['/blog', blog.id]" class="view-link" title="Read more about {{ blog.title }}">
-                    View
-                </a>
-                <a [routerLink]="['/edit-blog', blog.id]" class="edit-link" title="Edit">
-                    Edit
-                </a>
-                <button (click)="deleteBlog(blog.id)" class="delete-button" title="Delete">
-                    Delete
-                </button>
-            </article>
-        </ng-container>
+  <!-- Blog List -->
+  <ng-container *ngIf="(blogList$ | async) as blogs; else noBlogsTemplate">
+    <ng-container *ngFor="let blog of blogs">
+      <hr>
+      <article class="blog-item">
+        <h3>
+          {{ blog.title }}
+        </h3>
+        <h4 class="blog-author">{{ blog.author }}</h4>
+        <p class="blog-description">{{ blog.description }}</p>
+        <a [routerLink]="['/blog', blog.id]" class="view-link" title="Read more about {{ blog.title }}">
+          View
+        </a>
+        <a [routerLink]="['/edit-blog', blog.id]" class="edit-link" title="Edit">
+          Edit
+        </a>
+        <button (click)="deleteBlog(blog.id)" class="delete-button" title="Delete">
+          Delete
+        </button>
+      </article>
     </ng-container>
+  </ng-container>
 
-    <!-- Template for No Blogs -->
-    <ng-template #noBlogsTemplate>
-        <div class="no-blogs">
-            No blogs available.
-        </div>
-    </ng-template>
+  <!-- Template for No Blogs -->
+  <ng-template #noBlogsTemplate>
+    <div class="no-blogs">
+      No blogs available.
+    </div>
+  </ng-template>
 </div>

@@ -1,20 +1,20 @@
 .home-container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f4f4f4;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f4f4f4;
 }
 
 .blogs-container {
-    width: 80%;
-    background: #fff;
-    padding: 50px;
-    border-radius: 10px;
+  width: 80%;
+  background: #fff;
+  padding: 50px;
+  border-radius: 10px;
 }
 
 .blogs-title {
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
 }

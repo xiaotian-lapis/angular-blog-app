@@ -10,15 +10,15 @@ import {provideHttpClient} from "@angular/common/http";
 import {BLOGS_STATE_NAME} from "./shared/constants/state.constant";
 
 export const appConfig: ApplicationConfig = {
-    providers: [
-        provideRouter(routes),
-        // enable ngrx store
-        provideStore(),
-        provideState({
-            name: BLOGS_STATE_NAME,
-            reducer: blogReducer,
-        }),
-        provideEffects([BlogEffects]),
-        provideHttpClient(),
-    ]
+  providers: [
+    provideRouter(routes),
+    // enable ngrx store
+    provideStore(),
+    provideState({
+      name: BLOGS_STATE_NAME,
+      reducer: blogReducer,
+    }),
+    provideEffects([BlogEffects]),
+    provideHttpClient(),
+  ]
 };
