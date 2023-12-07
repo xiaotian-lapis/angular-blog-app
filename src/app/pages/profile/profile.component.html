@@ -1,8 +1,8 @@
 <div class="profile-form-container">
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
         <div class="form-group">
             <label for="name">Name:</label>
-            <input id="name" type="text" formControlName="name" class="form-control">
+            <input class="form-control" formControlName="name" id="name" type="text">
 
             <div *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.invalid">
                 <small class="form-text text-danger">Name is required.</small>
@@ -11,7 +11,7 @@
 
         <div class="form-group">
             <label for="email">Email:</label>
-            <input id="email" type="email" formControlName="email" class="form-control">
+            <input class="form-control" formControlName="email" id="email" type="email">
 
             <div *ngIf="profileForm.get('email')?.touched && profileForm.get('email')?.invalid">
                 <small class="form-text text-danger">Enter a valid email.</small>
@@ -20,12 +20,12 @@
 
         <div class="form-group">
             <label for="bio">Biography:</label>
-            <textarea id="bio" formControlName="bio" class="form-control"></textarea>
+            <textarea class="form-control" formControlName="bio" id="bio"></textarea>
         </div>
 
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" formControlName="password" class="form-control">
+            <input class="form-control" formControlName="password" id="password" type="password">
             <div *ngIf="profileForm.get('password')?.invalid && profileForm.get('password')?.touched">
                 <small class="form-text text-danger">Password must be at least 8 characters.</small>
             </div>
@@ -33,13 +33,13 @@
 
         <div class="form-group">
             <label for="age">Age:</label>
-            <input type="number" id="age" formControlName="age" class="form-control">
+            <input class="form-control" formControlName="age" id="age" type="number">
             <div *ngIf="profileForm.get('age')?.invalid && profileForm.get('age')?.touched">
                 <small class="form-text text-danger">You must be at least 18 years old.</small>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
+        <button [disabled]="!profileForm.valid" class="btn btn-primary" type="submit">Submit</button>
     </form>
     <hr>
     <div class="last-edited">

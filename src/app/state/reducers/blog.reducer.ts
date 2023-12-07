@@ -1,4 +1,4 @@
-import {EntityState, EntityAdapter, createEntityAdapter} from '@ngrx/entity';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {createReducer, on} from '@ngrx/store';
 import {Blog} from '../../shared/models/blog.model';
 import {BlogActions, BlogApiActions} from '../actions/blog.action';
@@ -21,7 +21,7 @@ export const blogReducer = createReducer(
     initialState,
     on(BlogActions.loadBlogs, (state) => {
         console.log("loadBlogs action triggered");
-        return { ...state, loading: true, error: null };
+        return {...state, loading: true, error: null};
     }),
     on(BlogActions.addBlog, (state, {id, author, title, description, content, createdTime}) => {
         console.log("addBlog reducer triggered")
@@ -40,18 +40,16 @@ export const blogReducer = createReducer(
         console.log(state.entities)
         return adapter.removeOne(id, state);
     }),
-
     on(BlogApiActions.blogsLoadedSuccess, (state, {blogs}) => {
         if (blogs == null) {
-            // if incoming blogs is null, return state as is.
+            // if incoming blogs is null, just set loading state to false.
             console.log("blogsLoadedSuccess reducer triggered, and blogs is null");
-            return { ...state, loading: false, error: null };
+            return {...state, loading: false, error: null};
         }
         console.log("blogsLoadedSuccess reducer triggered")
         console.log(state.entities)
         return adapter.setAll(blogs, {...state, loading: false, error: null, initialized: true});
     }),
-
     on(BlogApiActions.blogsLoadedError, (state) => {
         console.log("blogsLoadedError reducer triggered")
         console.log(state.entities)

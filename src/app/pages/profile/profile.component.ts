@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {FormControl, Validators, ReactiveFormsModule, FormBuilder} from '@angular/forms';
-import {DatePipe, NgIf} from '@angular/common';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {DatePipe, Location, NgIf} from '@angular/common';
 import {CookieService} from "ngx-cookie-service";
-import {Location} from '@angular/common';
 import {LAST_UPDATED_DATE_COOKIE_NAME} from "../../shared/constants/cookie.constant";
 import {Profile} from "./profile.model";
 
