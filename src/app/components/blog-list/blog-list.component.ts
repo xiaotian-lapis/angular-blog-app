@@ -1,9 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {AsyncPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {Blog} from "../../shared/models/blog.model";
 import {Observable} from "rxjs";
-import {selectAllBlogs} from "../../state/selectors/blog.selector";
+import {
+    selectAllBlogs,
+    selectBlogsError,
+    selectBlogsInitialized,
+    selectBlogsLoading
+} from "../../state/selectors/blog.selector";
 import {Store} from "@ngrx/store";
 import {BlogActions} from "../../state/actions/blog.action";
 
@@ -14,6 +19,7 @@ import {BlogActions} from "../../state/actions/blog.action";
         NgForOf,
         RouterLink,
         AsyncPipe,
+        NgIf,
     ],
     templateUrl: './blog-list.component.html',
     styleUrl: './blog-list.component.css'
@@ -21,12 +27,17 @@ import {BlogActions} from "../../state/actions/blog.action";
 export class BlogListComponent implements OnInit {
     blogList$: Observable<Blog[]> = this.store.select(selectAllBlogs);
 
+    // load and error selector
+    loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
+    error$: Observable<any> = this.store.select(selectBlogsError);
+    isInitialized$: Observable<boolean> = this.store.select(selectBlogsInitialized);
+
     constructor(private store: Store) {
     }
 
     ngOnInit(): void {
-        // try to select all blogs from store
-        this.blogList$ = this.store.select(selectAllBlogs);
+        // dispatch load action to load logs into store
+        this.store.dispatch(BlogActions.loadBlogs());
     }
 
     /**

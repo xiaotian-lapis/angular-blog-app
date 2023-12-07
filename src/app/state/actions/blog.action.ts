@@ -1,4 +1,4 @@
-import {createActionGroup, props} from "@ngrx/store";
+import {createActionGroup, emptyProps, props} from "@ngrx/store";
 import {Blog} from "../../shared/models/blog.model";
 
 /**
@@ -7,6 +7,7 @@ import {Blog} from "../../shared/models/blog.model";
 export const BlogActions = createActionGroup({
     source: 'Blog',
     events: {
+        'Load Blogs': emptyProps(),
         'Add Blog': props<{
             id: string,
             author: string,
@@ -38,9 +39,7 @@ export const BlogActions = createActionGroup({
 export const BlogApiActions = createActionGroup({
     source: 'Blog API',
     events: {
-        'Retrieved Blog List': props<{
-            blogs: Blog[],
-        }>(),
-        'Retrieved Blog': props<{ blog: Blog }>(),
-    }
+        'Blogs Loaded Success': props<{ blogs: Blog[] }>(),  // Action for successful blog load
+        'Blogs Loaded Error': emptyProps(),  // Action for error in loading blogs
+    },
 });
