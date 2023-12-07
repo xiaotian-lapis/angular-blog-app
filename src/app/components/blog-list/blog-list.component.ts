@@ -32,6 +32,7 @@ export class BlogListComponent implements OnInit {
   error$: Observable<any> = this.store.select(selectBlogsError);
   isInitialized$: Observable<boolean> = this.store.select(selectBlogsInitialized);
 
+  // TODO constuctor -> inject
   constructor(private store: Store) {
   }
 

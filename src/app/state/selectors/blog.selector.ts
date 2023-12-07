@@ -3,7 +3,8 @@ import {adapter, BlogState} from "../reducers/blog.reducer";
 import {Blog} from "../../shared/models/blog.model";
 import {BLOGS_STATE_NAME} from "../../shared/constants/state.constant";
 
-export const selectBlogState = createFeatureSelector<BlogState>(BLOGS_STATE_NAME);
+export const selectBlogState =
+  createFeatureSelector<BlogState>(BLOGS_STATE_NAME);
 
 export const {
   selectIds: selectBlogIds,

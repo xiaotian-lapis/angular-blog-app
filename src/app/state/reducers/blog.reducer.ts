@@ -23,13 +23,27 @@ export const blogReducer = createReducer(
     console.log("loadBlogs action triggered");
     return {...state, loading: true, error: null};
   }),
-  on(BlogActions.addBlog, (state, {id, author, title, description, content, createdTime}) => {
+  on(BlogActions.addBlog, (state, {
+    id,
+    author,
+    title,
+    description,
+    content,
+    createdTime
+  }) => {
     console.log("addBlog reducer triggered")
     console.log(state.entities)
     const newBlog: Blog = {id, author, title, description, content, createdTime, updatedTime: createdTime};
     return adapter.addOne(newBlog, state);
   }),
-  on(BlogActions.updateBlog, (state, {id, author, title, description, content, updatedTime}) => {
+  on(BlogActions.updateBlog, (state, {
+    id,
+    author,
+    title,
+    description,
+    content,
+    updatedTime
+  }) => {
     console.log("updateBlog reducer triggered")
     console.log(state.entities)
     const changes = {author, title, description, content, updatedTime};

@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angula
 import {DatePipe, Location, NgIf} from '@angular/common';
 import {CookieService} from "ngx-cookie-service";
 import {LAST_UPDATED_DATE_COOKIE_NAME} from "../../shared/constants/cookie.constant";
-import {Profile} from "./profile.model";
+import {IProfile} from "./profile.model";
 
 @Component({
   selector: 'app-profile',
@@ -41,8 +41,9 @@ export class ProfileComponent {
   constructor(private cookieService: CookieService, private readonly location: Location, private fb: FormBuilder) {
   }
 
-  getLastEdited(): string {
+  getLastEdited = () => {
     // get last updated date string from cookie
+    // TODO ngrx store local store
     const lastEditedISOString = this.cookieService.get(LAST_UPDATED_DATE_COOKIE_NAME);
     if (!lastEditedISOString) {
       return 'Not updated yet';
@@ -55,7 +56,7 @@ export class ProfileComponent {
     this.cookieService.set(LAST_UPDATED_DATE_COOKIE_NAME, new Date().toISOString());
 
     // debug show form value
-    const formValue: Profile = {
+    const formValue: IProfile = {
       name: this.profileForm.value.name ?? '',
       email: this.profileForm.value.email ?? '',
       bio: this.profileForm.value.bio ?? '',
@@ -65,7 +66,7 @@ export class ProfileComponent {
     console.log(formValue);
   }
 
-  goBack(): void {
+  goBack() {
     this.location.back();
   }
 }

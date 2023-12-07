@@ -17,11 +17,11 @@ import {map} from "rxjs";
 })
 export class BlogContentComponent implements OnInit {
 
-  blogContent: string = "";
-  blogTitle: string = "";
-  createdTime: Date = new Date();
-  updatedTime: Date = new Date();
-  blogAuthor: string = "";
+  blogContent = "";
+  title = "";
+  createdTime = new Date();
+  updatedTime = new Date();
+  blogAuthor = "";
   private readonly canGoBack: boolean;
 
   constructor(private route: ActivatedRoute,
@@ -43,7 +43,7 @@ export class BlogContentComponent implements OnInit {
       ).subscribe(blog => {
         if (blog) {
           this.blogContent = blog.content;
-          this.blogTitle = blog.title;
+          this.title = blog.title;
           this.createdTime = blog.createdTime;
           this.updatedTime = blog.updatedTime;
           this.blogAuthor = blog.author;

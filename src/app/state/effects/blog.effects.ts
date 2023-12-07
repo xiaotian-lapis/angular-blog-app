@@ -12,7 +12,7 @@ export class BlogEffects {
     // concat another metadata from state to check whether is already initialized
     withLatestFrom(this.store.pipe(select(selectBlogsInitialized))),
     mergeMap((
-      [_, isInitialized]: [any, boolean]
+      [_, isInitialized]
     ) => {
       if (isInitialized) {
         // already initialized, dispatch loaded success with null in blogs
