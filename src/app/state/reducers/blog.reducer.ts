@@ -64,9 +64,9 @@ export const blogReducer = createReducer(
     console.log(state.entities)
     return adapter.setAll(blogs, {...state, loading: false, error: null, initialized: true});
   }),
-  on(BlogApiActions.blogsLoadedError, (state) => {
+  on(BlogApiActions.blogsLoadedError, (state, {error}) => {
     console.log("blogsLoadedError reducer triggered")
     console.log(state.entities)
-    return {...state, loading: false, error: 'Error loading blogs'};
+    return {...state, loading: false, error: error.message};
   }),
 );

@@ -40,6 +40,6 @@ export const BlogApiActions = createActionGroup({
   source: 'Blog API',
   events: {
     'Blogs Loaded Success': props<{ blogs: Blog[] | null }>(),  // Action for successful blog load
-    'Blogs Loaded Error': emptyProps(),  // Action for error in loading blogs
+    'Blogs Loaded Error': props<{ error: { message: string } }>(),  // Action for error in loading blogs
   },
 });

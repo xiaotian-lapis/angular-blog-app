@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, of, withLatestFrom} from 'rxjs';
 import {BlogService} from '../../services/blog.service';
 import {select, Store} from "@ngrx/store";
@@ -11,7 +11,7 @@ export class BlogEffects {
   loadBlogs$ = createEffect(() => this.actions$.pipe(
     ofType(BlogActions.loadBlogs),
     // select Initialized info from store to determine whether to load blogs from backend api
-    withLatestFrom(this.store.pipe(select(selectBlogsInitialized))),
+    concatLatestFrom(() => this.store.select(selectBlogsInitialized)),
     mergeMap((
       [_, isInitialized]
     ) => {
@@ -22,7 +22,7 @@ export class BlogEffects {
         // not initialized, load blogs from backend api
         return this.blogService.getBlogs().pipe(
           map(blogs => (BlogApiActions.blogsLoadedSuccess({blogs}))),
-          catchError(() => of(BlogApiActions.blogsLoadedError()))
+          catchError((error: {message: string}) => of(BlogApiActions.blogsLoadedError({error})))
         );
       }
     })
