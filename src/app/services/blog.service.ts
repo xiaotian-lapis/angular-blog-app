@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Blog} from "../shared/models/blog.model";
+import {IBlog} from "../shared/models/blog.model";
 import {environment} from "../../environments/nvironment";
 
 @Injectable({
@@ -17,7 +17,7 @@ export class BlogService {
   /**
    * Get blogs from backend api
    */
-  getBlogs(): Observable<Blog[]> {
-    return this.http.get<Blog[]>(this.apiUrl);
+  getBlogs(): Observable<IBlog[]> {
+    return this.http.get<IBlog[]>(this.apiUrl);
   }
 }

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Blog} from "../../shared/models/blog.model";
+import {IBlog} from "../../shared/models/blog.model";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {BlogActions} from "../../state/actions/blog.action";
@@ -18,7 +18,7 @@ import {map} from "rxjs";
   styleUrl: './blog-edit.component.css'
 })
 export class BlogEditComponent implements OnInit {
-  @Input() blog?: Blog;
+  @Input() blog?: IBlog;
 
   blogForm = this.fb.group({
     title: new FormControl<string>(this.blog?.title || '', {
@@ -66,7 +66,7 @@ export class BlogEditComponent implements OnInit {
   onSubmit(): void {
     console.log(this.blogForm.value)
 
-    const blogData: Blog = {
+    const blogData: IBlog = {
       id: this.blog?.id || genRandomId(),
       title: this.blogForm.value.title || '',
       description: this.blogForm.value.description || '',

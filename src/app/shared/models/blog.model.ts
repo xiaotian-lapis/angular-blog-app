@@ -1,7 +1,7 @@
 /**
  * Blog model
  */
-export interface Blog {
+export interface IBlog {
   id: string;
   author: string;
   title: string;

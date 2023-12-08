@@ -1,15 +1,15 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {createReducer, on} from '@ngrx/store';
-import {Blog} from '../../shared/models/blog.model';
+import {IBlog} from '../../shared/models/blog.model';
 import {BlogActions, BlogApiActions} from '../actions/blog.action';
 
-export interface BlogState extends EntityState<Blog> {
+export interface BlogState extends EntityState<IBlog> {
   loading: boolean;
   error: any;
   initialized: boolean;
 }
 
-export const adapter: EntityAdapter<Blog> = createEntityAdapter<Blog>();
+export const adapter: EntityAdapter<IBlog> = createEntityAdapter<IBlog>();
 
 export const initialState: BlogState = adapter.getInitialState({
   loading: false,
@@ -33,7 +33,7 @@ export const blogReducer = createReducer(
   }) => {
     console.log("addBlog reducer triggered")
     console.log(state.entities)
-    const newBlog: Blog = {id, author, title, description, content, createdTime, updatedTime: createdTime};
+    const newBlog: IBlog = {id, author, title, description, content, createdTime, updatedTime: createdTime};
     return adapter.addOne(newBlog, state);
   }),
   on(BlogActions.updateBlog, (state, {

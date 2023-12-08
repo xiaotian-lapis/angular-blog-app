@@ -8,6 +8,7 @@ import {provideEffects} from "@ngrx/effects";
 import {BlogEffects} from "./state/effects/blog.effects";
 import {provideHttpClient} from "@angular/common/http";
 import {BLOGS_STATE_NAME} from "./shared/constants/state.constant";
+import {provideStoreDevtools} from "@ngrx/store-devtools";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects([BlogEffects]),
     provideHttpClient(),
+    provideStoreDevtools({ maxAge: 25 }),
   ]
 };

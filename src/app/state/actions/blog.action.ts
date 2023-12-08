@@ -1,5 +1,5 @@
 import {createActionGroup, emptyProps, props} from "@ngrx/store";
-import {Blog} from "../../shared/models/blog.model";
+import {IBlog} from "../../shared/models/blog.model";
 
 /**
  * Blog Actions
@@ -39,7 +39,7 @@ export const BlogActions = createActionGroup({
 export const BlogApiActions = createActionGroup({
   source: 'Blog API',
   events: {
-    'Blogs Loaded Success': props<{ blogs: Blog[] | null }>(),  // Action for successful blog load
+    'Blogs Loaded Success': props<{ blogs: IBlog[] | null }>(),  // Action for successful blog load
     'Blogs Loaded Error': props<{ error: { message: string } }>(),  // Action for error in loading blogs
   },
 });

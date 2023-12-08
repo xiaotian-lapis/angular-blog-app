@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import {Blog} from "../../shared/models/blog.model";
+import {IBlog} from "../../shared/models/blog.model";
 import {Observable} from "rxjs";
 import {
   selectAllBlogs,
@@ -25,7 +25,7 @@ import {BlogActions} from "../../state/actions/blog.action";
   styleUrl: './blog-list.component.css'
 })
 export class BlogListComponent implements OnInit {
-  blogList$: Observable<Blog[]> = this.store.select(selectAllBlogs);
+  blogList$: Observable<IBlog[]> = this.store.select(selectAllBlogs);
 
   // load and error selector
   loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
