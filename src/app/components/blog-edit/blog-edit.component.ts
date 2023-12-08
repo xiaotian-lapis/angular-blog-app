@@ -89,7 +89,7 @@ export class BlogEditComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['..'], {relativeTo: this.route});
+    this.router.navigate(['/home']);
   }
 
 }
