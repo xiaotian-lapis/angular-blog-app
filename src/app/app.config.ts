@@ -9,6 +9,7 @@ import {BlogEffects} from "./state/effects/blog.effects";
 import {provideHttpClient} from "@angular/common/http";
 import {BLOGS_STATE_NAME} from "./shared/constants/state.constant";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,11 +17,12 @@ export const appConfig: ApplicationConfig = {
     // enable ngrx store
     provideStore(),
     provideState({
-      name: BLOGS_STATE_NAME,
-      reducer: blogReducer,
+        name: BLOGS_STATE_NAME,
+        reducer: blogReducer,
     }),
     provideEffects([BlogEffects]),
     provideHttpClient(),
     provideStoreDevtools({ maxAge: 25 }),
-  ]
+    provideAnimations()
+]
 };

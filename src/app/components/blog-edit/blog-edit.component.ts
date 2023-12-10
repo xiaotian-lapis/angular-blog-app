@@ -7,12 +7,16 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
 import {genRandomId} from "../../shared/utils/random.util";
 import {map} from "rxjs";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'app-blog-edit',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule
   ],
   templateUrl: './blog-edit.component.html',
   styleUrl: './blog-edit.component.css'

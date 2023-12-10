@@ -1,28 +1,31 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="blogForm" class="blog-form">
-  <div class="form-group">
-    <label for="title">Title:</label>
-    <input class="form-control" formControlName="title" id="title" placeholder="Enter title" type="text">
-  </div>
+<form (ngSubmit)="onSubmit()" [formGroup]="blogForm">
+  <!-- Title Field -->
+  <mat-form-field>
+    <mat-label>Title:</mat-label>
+    <input matInput formControlName="title" placeholder="Enter title">
+  </mat-form-field>
 
-  <div class="form-group">
-    <label for="description">Description:</label>
-    <textarea class="form-control" formControlName="description" id="description" placeholder="Enter description"
-              rows="4"></textarea>
-  </div>
+  <!-- Description Field -->
+  <mat-form-field>
+    <mat-label>Description:</mat-label>
+    <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
+  </mat-form-field>
 
-  <div class="form-group">
-    <label for="content">Content:</label>
-    <textarea class="form-control" formControlName="content" id="content" placeholder="Enter content"
-              rows="6"></textarea>
-  </div>
+  <!-- Content Field -->
+  <mat-form-field>
+    <mat-label>Content:</mat-label>
+    <textarea matInput formControlName="content" placeholder="Enter content"></textarea>
+  </mat-form-field>
 
-  <div class="form-group">
-    <label for="author">Author:</label>
-    <input [disabled]="blog != null" class="form-control" formControlName="author" id="author"
-           placeholder="Enter author name"
-           type="text">
-  </div>
+  <!-- Author Field -->
+  <mat-form-field>
+    <mat-label>Author:</mat-label>
+    <input matInput [disabled]="blog != null" formControlName="author" placeholder="Enter author name">
+  </mat-form-field>
 
-  <button class="btn btn-primary" type="submit">Submit</button>
-  <button (click)="goBack()" class="btn">Go back</button>
+  <!-- Buttons -->
+  <div>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button mat-button (click)="goBack()">Go back</button>
+  </div>
 </form>

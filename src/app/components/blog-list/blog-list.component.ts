@@ -11,6 +11,8 @@ import {
 } from "../../state/selectors/blog.selector";
 import {Store} from "@ngrx/store";
 import {BlogActions} from "../../state/actions/blog.action";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'blog-list',
@@ -20,6 +22,8 @@ import {BlogActions} from "../../state/actions/blog.action";
     RouterLink,
     AsyncPipe,
     NgIf,
+    MatCardModule,
+    MatButtonModule,
   ],
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.css'

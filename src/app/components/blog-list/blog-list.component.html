@@ -12,23 +12,21 @@
   <!-- Blog List -->
   <ng-container *ngIf="(blogList$ | async) as blogs; else noBlogsTemplate">
     <ng-container *ngFor="let blog of blogs">
-      <hr>
-      <article class="blog-item">
-        <h3>
-          {{ blog.title }}
-        </h3>
-        <h4 class="blog-author">{{ blog.author }}</h4>
-        <p class="blog-description">{{ blog.description }}</p>
-        <a [routerLink]="['/blog', blog.id]" class="view-link" title="Read more about {{ blog.title }}">
-          View
-        </a>
-        <a [routerLink]="['/edit-blog', blog.id]" class="edit-link" title="Edit">
-          Edit
-        </a>
-        <button (click)="deleteBlog(blog.id)" class="delete-button" title="Delete">
-          Delete
-        </button>
-      </article>
+
+      <mat-card class="blog-item">
+        <mat-card-header>
+          <mat-card-title>{{ blog.title }}</mat-card-title>
+          <mat-card-subtitle>{{ blog.author }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ blog.description }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button routerLink="/blog/{{ blog.id }}" color="primary">View</button>
+          <button mat-button routerLink="/edit-blog/{{ blog.id }}">Edit</button>
+          <button mat-button (click)="deleteBlog(blog.id)"color="warn">Delete</button>
+        </mat-card-actions>
+      </mat-card>
     </ng-container>
   </ng-container>
 
