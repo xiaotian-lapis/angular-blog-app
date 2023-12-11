@@ -1,0 +1,25 @@
+import {environment} from "../../environments/nvironment";
+import {IProfile} from "../shared/models/profile.model";
+import {Observable, of} from "rxjs";
+import {Injectable} from "@angular/core";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProfileService {
+
+  /**
+   * Get profile from mock data
+   */
+  getProfile(): Observable<IProfile> {
+    return of({
+      id: "1",
+      name: "John Doe",
+      email: "test@google.com",
+      bio: "I am a software engineer",
+      password: "password",
+      age: 20,
+      updatedTime: new Date(),
+    });
+  }
+}
