@@ -24,6 +24,7 @@ import {ProfileActions} from "../../state/actions/profile.action";
 })
 export class ProfileComponent implements OnInit{
 
+  // temporary hard code profile id
   private profileId: string = '1';
 
   loading$: Observable<boolean> = this.store.select(selectProfilesLoading);
@@ -81,7 +82,7 @@ export class ProfileComponent implements OnInit{
 
     // debug show form value
     const formValue: IProfile = {
-      id: '1',
+      id: this.profileId,
       name: this.profileForm.value.name ?? '',
       email: this.profileForm.value.email ?? '',
       bio: this.profileForm.value.bio ?? '',
