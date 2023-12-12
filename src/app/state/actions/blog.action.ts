@@ -16,6 +16,11 @@ export const BlogActions = createActionGroup({
       content: string,
       createdTime: Date,
       updatedTime: Date,
+      location: {
+        lat: number,
+        lng: number,
+        addr: string,
+      }
     }>(),
     'Remove Blog': props<{
       id: string,
@@ -28,6 +33,11 @@ export const BlogActions = createActionGroup({
       content: string,
       createdTime: Date,
       updatedTime: Date,
+      location: {
+        lat: number,
+        lng: number,
+        addr: string,
+      }
     }>(),
   },
 

@@ -9,4 +9,9 @@ export interface IBlog {
   content: string;
   createdTime: Date;
   updatedTime: Date;
+  location: {
+    lat: number;
+    lng: number;
+    addr: string;
+  };
 }

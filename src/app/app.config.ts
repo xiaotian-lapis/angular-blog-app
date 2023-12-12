@@ -1,4 +1,4 @@
-import {ApplicationConfig} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
@@ -12,6 +12,7 @@ import {provideStoreDevtools} from "@ngrx/store-devtools";
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {profileReducer} from "./state/reducers/profile.reducer";
 import {ProfileEffects} from "./state/effects/profile.effects";
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects([BlogEffects, ProfileEffects]),
     provideHttpClient(),
     provideStoreDevtools({ maxAge: 25 }),
-    provideAnimations()
+    provideAnimations(),
+    importProvidersFrom(LeafletModule),
 ]
 };

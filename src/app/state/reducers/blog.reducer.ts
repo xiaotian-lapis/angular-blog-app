@@ -29,11 +29,15 @@ export const blogReducer = createReducer(
     title,
     description,
     content,
-    createdTime
+    createdTime,
+    location,
   }) => {
     console.log("addBlog reducer triggered")
     console.log(state.entities)
-    const newBlog: IBlog = {id, author, title, description, content, createdTime, updatedTime: createdTime};
+    const newBlog: IBlog = {id, author, title,
+      description, content, createdTime, updatedTime: createdTime,
+      location: location
+    };
     return adapter.addOne(newBlog, state);
   }),
   on(BlogActions.updateBlog, (state, {
@@ -42,11 +46,12 @@ export const blogReducer = createReducer(
     title,
     description,
     content,
-    updatedTime
+    updatedTime,
+    location,
   }) => {
     console.log("updateBlog reducer triggered")
     console.log(state.entities)
-    const changes = {author, title, description, content, updatedTime};
+    const changes = {author, title, description, content, updatedTime, location};
     return adapter.updateOne({id, changes}, state);
   }),
   on(BlogActions.removeBlog, (state, {id}) => {

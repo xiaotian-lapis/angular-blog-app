@@ -27,4 +27,9 @@ export const routes: Routes = [
     loadChildren: () => import('./components/blog-edit/blog-edit-routing.module')
       .then(m => m.BlogEditRoutingModule)
   },
+
+  {path: 'discover',
+    loadChildren: () => import('./pages/discover/discover-routing.module')
+      .then(m => m.DiscoverRoutingModule)
+  },
 ];
