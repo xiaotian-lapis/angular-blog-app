@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
-import {circle, latLng, polygon, tileLayer} from "leaflet";
+import {icon, latLng, Layer, marker, tileLayer} from "leaflet";
+import {Store} from "@ngrx/store";
+import {selectAllBlogs} from "../../state/selectors/blog.selector";
 
 @Component({
   selector: 'app-discover',
@@ -11,25 +13,49 @@ import {circle, latLng, polygon, tileLayer} from "leaflet";
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css'
 })
-export class DiscoverComponent {
+export class DiscoverComponent implements OnInit {
+
+  constructor(
+    private store: Store,
+  ) {
+  }
 
   options = {
     layers: [
-      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+      tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        { maxZoom: 18, attribution: '...' })
     ],
-    zoom: 5,
-    center: latLng(46.879966, -121.726909)
+    zoom: 15,
+    center: latLng(-37.81638808755261, 144.9566792258329)
   };
 
-  layersControl = {
-    baseLayers: {
-      'Open Street Map': tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' }),
-      'Open Cycle Map': tileLayer('https://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-    },
-    overlays: {
-      'Big Circle': circle([ 46.95, -122 ], { radius: 5000 }),
-      'Big Square': polygon([[ 46.8, -121.55 ], [ 46.9, -121.55 ], [ 46.9, -121.7 ], [ 46.8, -121.7 ]])
-    }
-  }
+  // Array to hold the markers
+  layers: Layer[] = [];
 
+  selectBlogs$ = this.store.select(selectAllBlogs);
+
+  ngOnInit(): void {
+    this.selectBlogs$.subscribe(blogs => {
+      console.log("blogs for discover page: ", blogs);
+      this.layers = blogs.map(
+        blog => {
+          return marker(
+            [blog.location.lat, blog.location.lng],
+            {
+              title: blog.title,
+              riseOnHover: true,
+              icon: icon({
+                iconUrl: './assets/marker-icon.png',
+                iconSize: [30, 40]
+              })
+            }
+          ).bindPopup(`
+            <h3>${blog.title}</h3>
+            <a>View</a>`
+          );
+        }
+      )
+    });
+  }
 }
