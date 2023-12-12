@@ -48,7 +48,7 @@ export class DiscoverComponent implements OnInit {
   };
 
   // Array to hold the markers
-  markerClusterGroup!: L.MarkerClusterGroup;
+  markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
 
   // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
@@ -79,7 +79,11 @@ export class DiscoverComponent implements OnInit {
 
     // Subscribe to the markerClusterData$ observable
     markerClusterData$.subscribe(markerData => {
-      this.updateMarkerCluster(markerData);
+      try {
+        this.markerClusterGroup.addLayers(markerData);
+      } catch (error) {
+        console.error('Error updating marker cluster:', error);
+      }
     });
   }
 
@@ -88,6 +92,7 @@ export class DiscoverComponent implements OnInit {
    */
   private initializeMap(): void {
     this.map = L.map('discovery-map', this.options);
+    this.map.addLayer(this.markerClusterGroup);
   }
 
   /**
@@ -153,24 +158,5 @@ export class DiscoverComponent implements OnInit {
 
       return blogMarker;
     });
-  }
-
-  /**
-   * Update the marker cluster with the new data
-   * @param markerData
-   * @private
-   */
-  private updateMarkerCluster(markerData: L.Layer[]): void {
-    try {
-      if (this.map && this.markerClusterGroup) {
-        this.map.removeLayer(this.markerClusterGroup);
-      }
-
-      this.markerClusterGroup = L.markerClusterGroup();
-      this.markerClusterGroup.addLayers(markerData);
-      this.map.addLayer(this.markerClusterGroup);
-    } catch (error) {
-      console.error('Error updating marker cluster:', error);
-    }
   }
 }
