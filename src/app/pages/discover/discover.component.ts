@@ -3,10 +3,12 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import {Store} from "@ngrx/store";
-import {selectAllBlogs} from "../../state/selectors/blog.selector";
+import {selectAllBlogs, selectBlogsLoading} from "../../state/selectors/blog.selector";
 import {BlogActions} from "../../state/actions/blog.action";
 import {Router} from "@angular/router";
 import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
+import {catchError, of, map, distinctUntilChanged, Observable} from "rxjs";
+import {AsyncPipe, NgIf} from "@angular/common";
 
 console.log(window.L === L)
 console.log(typeof L.MarkerClusterGroup)
@@ -17,6 +19,8 @@ console.log(typeof L.MarkerClusterGroup)
   imports: [
     LeafletModule,
     LeafletMarkerClusterModule,
+    AsyncPipe,
+    NgIf,
   ],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css'
@@ -29,6 +33,7 @@ export class DiscoverComponent implements OnInit {
   ) {
   }
 
+  // map options
   options = {
     layers: [
       L.tileLayer(
@@ -44,12 +49,13 @@ export class DiscoverComponent implements OnInit {
 
   // Array to hold the markers
   markerClusterGroup!: L.MarkerClusterGroup;
-  markerClusterData: L.Layer[] = [];
 
+  // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
+  loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
 
+  // map instance
   map!: L.Map;
-  legend!: L.Control;
 
   ngOnInit(): void {
 
@@ -59,28 +65,43 @@ export class DiscoverComponent implements OnInit {
     // dispatch load action to load logs into store
     this.store.dispatch(BlogActions.loadBlogs());
 
-    this.selectBlogs$.subscribe(blogs => {
-      console.log("blogs for discover page: ", blogs);
-      this.updateMarkers(blogs);
+    // convert the blogs to marker observables
+    const markerClusterData$ = this.selectBlogs$.pipe(
+      map(blogs =>
+        this.transformBlogsToMarkers(blogs)
+      ),
+      distinctUntilChanged(),
+      catchError(error => {
+        console.error('Error processing blog data:', error);
+        return of([]);
+      })
+    );
+
+    // Subscribe to the markerClusterData$ observable
+    markerClusterData$.subscribe(markerData => {
+      this.updateMarkerCluster(markerData);
     });
   }
 
-  initializeMap(): void {
-    this.map = L.map('discovery-map', this.options); // Ensure 'map' is the ID of your map container
-
-    const markerCluster = L.markerClusterGroup();
-    markerCluster.addLayers(this.markerClusterData);
-    this.map.addLayer(markerCluster);
+  /**
+   * Initialize the map
+   */
+  private initializeMap(): void {
+    this.map = L.map('discovery-map', this.options);
   }
 
-  createLegend(): void {
+  /**
+   * Create the legend for the map
+   */
+  private createLegend(): void {
     const legend = L.Control.extend({
       options: {
         position: 'bottomright'
       },
 
       onAdd: function (map: L.Map) {
-        const div = L.DomUtil.create('div', 'info legend');
+        const div = L.DomUtil.create(
+          'div', 'info legend');
         div.style.backgroundColor = 'white';
         let legendHtml = `
         <h4>Map Legend</h4>
@@ -91,13 +112,17 @@ export class DiscoverComponent implements OnInit {
       }
     });
 
-    this.legend = new legend();
-    this.legend.addTo(this.map);
+    // add the legend to the map
+    new legend().addTo(this.map);
   }
 
-
-  updateMarkers(blogs: any[]): void {
-    this.markerClusterData = blogs.map(blog => {
+  /**
+   * construct the marker Layers from the blog data
+   * @param blogs
+   * @private
+   */
+  private transformBlogsToMarkers(blogs: any[]): L.Layer[] {
+    return blogs.map(blog => {
       const popupContent =
         `
               <h3>${blog.title}</h3>
@@ -128,21 +153,24 @@ export class DiscoverComponent implements OnInit {
 
       return blogMarker;
     });
-
-    this.updateMarkerCluster(); // Update the marker cluster after creating new markers
   }
 
-  updateMarkerCluster(): void {
+  /**
+   * Update the marker cluster with the new data
+   * @param markerData
+   * @private
+   */
+  private updateMarkerCluster(markerData: L.Layer[]): void {
     try {
       if (this.map && this.markerClusterGroup) {
         this.map.removeLayer(this.markerClusterGroup);
       }
-    } catch (error) {
-      console.error('Error removing marker cluster group from map:', error);
-    }
 
-    this.markerClusterGroup = L.markerClusterGroup();
-    this.markerClusterGroup.addLayers(this.markerClusterData);
-    this.map.addLayer(this.markerClusterGroup);
+      this.markerClusterGroup = L.markerClusterGroup();
+      this.markerClusterGroup.addLayers(markerData);
+      this.map.addLayer(this.markerClusterGroup);
+    } catch (error) {
+      console.error('Error updating marker cluster:', error);
+    }
   }
 }
