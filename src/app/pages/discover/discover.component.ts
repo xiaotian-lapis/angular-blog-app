@@ -1,16 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
-import {icon, latLng, Layer, marker, tileLayer} from "leaflet";
+import * as L from 'leaflet';
+import 'leaflet.markercluster';
 import {Store} from "@ngrx/store";
 import {selectAllBlogs} from "../../state/selectors/blog.selector";
 import {BlogActions} from "../../state/actions/blog.action";
 import {Router} from "@angular/router";
+import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
+
+console.log(window.L === L)
+console.log(typeof L.MarkerClusterGroup)
 
 @Component({
   selector: 'app-discover',
   standalone: true,
   imports: [
-    LeafletModule
+    LeafletModule,
+    LeafletMarkerClusterModule,
   ],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css'
@@ -25,7 +31,7 @@ export class DiscoverComponent implements OnInit {
 
   options = {
     layers: [
-      tileLayer(
+      L.tileLayer(
         'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
         {
           maxZoom: 18,
@@ -33,11 +39,11 @@ export class DiscoverComponent implements OnInit {
         })
     ],
     zoom: 15,
-    center: latLng(-37.81638808755261, 144.9566792258329)
+    center: L.latLng(-37.81638808755261, 144.9566792258329)
   };
 
   // Array to hold the markers
-  layers: Layer[] = [];
+  markerClusterData: L.Layer[] = [];
 
   selectBlogs$ = this.store.select(selectAllBlogs);
 
@@ -48,7 +54,7 @@ export class DiscoverComponent implements OnInit {
 
     this.selectBlogs$.subscribe(blogs => {
       console.log("blogs for discover page: ", blogs);
-      this.layers = blogs.map(
+      this.markerClusterData = blogs.map(
         blog => {
           const popupContent =
             `
@@ -58,12 +64,12 @@ export class DiscoverComponent implements OnInit {
               <button id="view-blog-${blog.id}" class="leaflet-popup-button">View</button>
             `;
 
-          const blogMarker = marker(
+          const blogMarker = L.marker(
             [blog.location.lat, blog.location.lng],
             {
               title: blog.title,
               riseOnHover: true,
-              icon: icon({
+              icon: L.icon({
                 iconUrl: './assets/marker-icon.png',
                 iconSize: [20, 35]
               })

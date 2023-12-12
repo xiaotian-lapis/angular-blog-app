@@ -13,6 +13,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import {profileReducer} from "./state/reducers/profile.reducer";
 import {ProfileEffects} from "./state/effects/profile.effects";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +32,5 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStoreDevtools({ maxAge: 25 }),
     provideAnimations(),
-    importProvidersFrom(LeafletModule),
 ]
 };
