@@ -43,6 +43,18 @@ window.type = '';
   styleUrl: './discover.component.css',
 })
 export class DiscoverComponent implements OnInit {
+  // layer for drawn items
+  drawnItemsLayer: L.FeatureGroup = L.featureGroup();
+
+  // blog marker cluster layer
+  blogMarkerClusterGroupLayer: L.MarkerClusterGroup = L.markerClusterGroup();
+
+  // GeoJson data layer
+  geoJsonDataLayer = L.geoJson();
+
+  // map instance
+  map!: L.Map;
+
   // map options
   options = {
     layers: [
@@ -54,8 +66,6 @@ export class DiscoverComponent implements OnInit {
     center: L_COORDINATE_MELBOURNE,
   };
 
-  // layer for drawn items
-  drawnItemsLayer: L.FeatureGroup = L.featureGroup();
   // leaflet draw options
   drawOptions = {
     draw: {
@@ -71,17 +81,9 @@ export class DiscoverComponent implements OnInit {
     },
   };
 
-  // Array to hold the blog markers
-  blogMarkerClusterGroupLayer: L.MarkerClusterGroup = L.markerClusterGroup();
-
   // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
   loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
-  // map instance
-  map!: L.Map;
-
-  // GeoJson data layer
-  geoJsonDataLayer = L.geoJson();
 
   constructor(
     private store: Store,
@@ -113,11 +115,6 @@ export class DiscoverComponent implements OnInit {
     console.log('map ready', map);
     this.map = map;
     this.initializeMap();
-  }
-
-  handleGeoJson(data: any) {
-    this.geoJsonDataLayer.addData(data);
-    console.log('Received GeoJSON:', data);
   }
 
   /**
@@ -238,4 +235,12 @@ export class DiscoverComponent implements OnInit {
       return blogMarker;
     });
   }
+
+  /**
+   * Handle the GeoJSON data.
+   */
+  handleGeoJson = (data: any) => {
+    this.geoJsonDataLayer.addData(data);
+    console.log('Received GeoJSON:', data);
+  };
 }
