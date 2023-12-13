@@ -1,10 +1,27 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
+import {GoogleProvider, OpenStreetMapProvider} from 'leaflet-geosearch';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
+
+  private readonly geoSearchProvider;
+
+  constructor() {
+    // this.geoSearchProvider = new GoogleProvider(
+    //   {
+    //     apiKey: environment.googleMapApiKey,
+    //   }
+    // );
+    this.geoSearchProvider = new OpenStreetMapProvider();
+  }
+
+  /**
+   * Get current position
+   */
   getPosition(): Observable<any> {
     return new Observable(observer => {
       navigator.geolocation.getCurrentPosition(
@@ -18,4 +35,29 @@ export class LocationService {
       );
     });
   }
+
+  /**
+   * Get geo search provider
+   */
+  getGeoSearchProvider() {
+    return this.geoSearchProvider;
+  }
+
+  /**
+   * Get place name by coordinate
+   * @param lat
+   * @param lng
+   */
+  getPlaceNameByCoordinate(lat: number, lng: number): Observable<any> {
+    return of(this.geoSearchProvider.search({query: `${lat}, ${lng}`}));
+  }
+
+  /**
+   * Get coordinate by place name
+   * @param placeName
+   */
+  getCoordinateByPlaceName(placeName: string): Observable<any> {
+    return of(this.geoSearchProvider.search({query: placeName}));
+  }
+
 }

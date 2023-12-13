@@ -1,4 +1,4 @@
-import {environment} from "../../environments/nvironment";
+import {environment} from "../../environments/environment";
 import {IProfile} from "../shared/models/profile.model";
 import {Observable, of} from "rxjs";
 import {Injectable} from "@angular/core";

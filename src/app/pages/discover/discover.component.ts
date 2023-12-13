@@ -9,6 +9,9 @@ import {Router} from "@angular/router";
 import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
 import {catchError, of, map, distinctUntilChanged, Observable} from "rxjs";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {BASEMAP_URL, L_COORDINATE_MELBOURNE, MAP_MAX_ZOOM} from "../../shared/constants/geo.constant";
+import {LocationService} from "../../services/location.service";
+import {SearchControl} from "leaflet-geosearch";
 
 console.log(window.L === L)
 console.log(typeof L.MarkerClusterGroup)
@@ -30,6 +33,7 @@ export class DiscoverComponent implements OnInit {
   constructor(
     private store: Store,
     private router: Router,
+    private locationService: LocationService,
   ) {
   }
 
@@ -37,14 +41,13 @@ export class DiscoverComponent implements OnInit {
   options = {
     layers: [
       L.tileLayer(
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+        BASEMAP_URL,
         {
-          maxZoom: 18,
-          attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: MAP_MAX_ZOOM,
         })
     ],
-    zoom: 15,
-    center: L.latLng(-37.81638808755261, 144.9566792258329)
+    zoom: MAP_MAX_ZOOM,
+    center: L_COORDINATE_MELBOURNE
   };
 
   // Array to hold the markers
@@ -61,6 +64,8 @@ export class DiscoverComponent implements OnInit {
 
     this.initializeMap();
     this.createLegend();
+    this.createScale();
+    this.createGetSearch();
 
     // dispatch load action to load logs into store
     this.store.dispatch(BlogActions.loadBlogs());
@@ -92,6 +97,7 @@ export class DiscoverComponent implements OnInit {
    */
   private initializeMap(): void {
     this.map = L.map('discovery-map', this.options);
+    this.map.locate({setView: true, maxZoom: MAP_MAX_ZOOM});
     this.map.addLayer(this.markerClusterGroup);
   }
 
@@ -122,6 +128,32 @@ export class DiscoverComponent implements OnInit {
   }
 
   /**
+   * Create the scale bar for the map
+   * @private
+   */
+  private createScale(): void {
+    L.control.scale().addTo(this.map);
+  }
+
+  private createGetSearch(): void {
+
+    // @ts-ignore
+    const searchControl = new SearchControl({
+      provider: this.locationService.getGeoSearchProvider(),
+      style: 'bar',
+      showMarker: true,
+      marker: {
+        icon: L.icon({
+          iconUrl: './assets/red-marker.png',
+          iconSize: [35, 35]
+        })
+      },
+    });
+
+    this.map.addControl(searchControl);
+  }
+
+  /**
    * construct the marker Layers from the blog data
    * @param blogs
    * @private
@@ -143,6 +175,7 @@ export class DiscoverComponent implements OnInit {
           riseOnHover: true,
           icon: L.icon({
             iconUrl: './assets/marker-icon.png',
+            shadowUrl: './assets/marker-shadow.png',
             iconSize: [20, 35]
           })
         }
