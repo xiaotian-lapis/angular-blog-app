@@ -150,14 +150,13 @@ export class DiscoverComponent implements OnInit {
         position: 'bottomright',
       },
 
-      onAdd: function (map: L.Map) {
+      onAdd: function () {
         const div = L.DomUtil.create('div', 'info legend');
         div.style.backgroundColor = 'white';
-        const legendHtml = `
+        div.innerHTML = `
         <h4>Map Legend</h4>
         <div><span style="background-color: red; height: 10px; width: 10px; display: inline-block; margin-right: 5px;"></span>Blogs</div>
       `;
-        div.innerHTML = legendHtml;
         return div;
       },
     });
@@ -221,7 +220,7 @@ export class DiscoverComponent implements OnInit {
       blogMarker.on('popupopen', () => {
         const button = document.getElementById(`view-blog-${blog.id}`);
         button?.addEventListener('click', () => {
-          this.router.navigate(['/blog', blog.id]);
+          this.router.navigate(['/blog', blog.id]).then(r => r);
         });
       });
 
