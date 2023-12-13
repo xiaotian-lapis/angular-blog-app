@@ -142,6 +142,8 @@ export class DiscoverComponent implements OnInit {
       provider: this.locationService.getGeoSearchProvider(),
       style: 'bar',
       showMarker: true,
+      showPopup: true,
+      notFoundMessage: 'Sorry, that address could not be found.',
       marker: {
         icon: L.icon({
           iconUrl: './assets/red-marker.png',

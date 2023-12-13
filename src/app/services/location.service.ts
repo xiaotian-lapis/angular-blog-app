@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Observable, of} from "rxjs";
 import {GoogleProvider, OpenStreetMapProvider} from 'leaflet-geosearch';
 import {environment} from "../../environments/environment";
+import {IGeoSearchResult} from "../shared/models/geo-search-result.model";
 
 @Injectable({
   providedIn: 'root'
