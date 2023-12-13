@@ -1,12 +1,15 @@
 <div *ngIf="loading$ | async">Loading blogs...</div>
+<geo-file-upload (geoJsonParsed)="handleGeoJson($event)"></geo-file-upload>
+
 <div
+  (leafletDrawCreated)="onDrawCreated($event)"
+  (leafletMapReady)="onMapReady($event)"
+  [leafletDrawOptions]="drawOptions"
+  [leafletOptions]="options"
   leaflet
   leafletDraw
-  style="height: 88%"
-  [leafletOptions]="options"
-  [leafletDrawOptions]="drawOptions"
-  (leafletDrawCreated)="onDrawCreated($event)"
-  (leafletMapReady)="onMapReady($event)">
-  <div [leafletLayer]="drawnItems"></div>
-  <div [leafletLayer]="blogMarkerClusterGroup"></div>
+  style="height: 80%">
+  <div [leafletLayer]="drawnItemsLayer"></div>
+  <div [leafletLayer]="blogMarkerClusterGroupLayer"></div>
+  <div [leafletLayer]="geoJsonDataLayer"></div>
 </div>

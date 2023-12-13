@@ -12,7 +12,7 @@ import { BlogActions } from '../../state/actions/blog.action';
 import { Router } from '@angular/router';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 import { catchError, distinctUntilChanged, map, Observable, of } from 'rxjs';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import {
   BASEMAP_URL,
   L_COORDINATE_MELBOURNE,
@@ -21,6 +21,7 @@ import {
 import { LocationService } from '../../services/location.service';
 import { SearchControl } from 'leaflet-geosearch';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { FileUploadComponent } from '../../components/file-upload/file-upload.component';
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-ignore
@@ -35,6 +36,8 @@ window.type = '';
     AsyncPipe,
     NgIf,
     LeafletDrawModule,
+    FileUploadComponent,
+    JsonPipe,
   ],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css',
@@ -52,7 +55,7 @@ export class DiscoverComponent implements OnInit {
   };
 
   // layer for drawn items
-  drawnItems: L.FeatureGroup = L.featureGroup();
+  drawnItemsLayer: L.FeatureGroup = L.featureGroup();
   // leaflet draw options
   drawOptions = {
     draw: {
@@ -64,18 +67,21 @@ export class DiscoverComponent implements OnInit {
       },
     },
     edit: {
-      featureGroup: this.drawnItems,
+      featureGroup: this.drawnItemsLayer,
     },
   };
 
   // Array to hold the blog markers
-  blogMarkerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
+  blogMarkerClusterGroupLayer: L.MarkerClusterGroup = L.markerClusterGroup();
 
   // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
   loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
   // map instance
   map!: L.Map;
+
+  // GeoJson data layer
+  geoJsonDataLayer = L.geoJson();
 
   constructor(
     private store: Store,
@@ -95,7 +101,7 @@ export class DiscoverComponent implements OnInit {
    * @param e - The event object containing the created layer.
    */
   onDrawCreated(e: any) {
-    this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
+    this.drawnItemsLayer.addLayer((e as L.DrawEvents.Created).layer);
   }
 
   /**
@@ -107,6 +113,11 @@ export class DiscoverComponent implements OnInit {
     console.log('map ready', map);
     this.map = map;
     this.initializeMap();
+  }
+
+  handleGeoJson(data: any) {
+    this.geoJsonDataLayer.addData(data);
+    console.log('Received GeoJSON:', data);
   }
 
   /**
@@ -134,7 +145,7 @@ export class DiscoverComponent implements OnInit {
     // Subscribe to the markerClusterData$ observable
     markerClusterData$.subscribe(markerData => {
       try {
-        this.blogMarkerClusterGroup.addLayers(markerData);
+        this.blogMarkerClusterGroupLayer.addLayers(markerData);
       } catch (error) {
         console.error('Error updating marker cluster:', error);
       }

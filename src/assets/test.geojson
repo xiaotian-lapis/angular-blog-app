@@ -1,0 +1,33 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {"name": "Route Example"},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [144.9631, -37.8136],
+          [144.9640, -37.8145],
+          [144.9650, -37.8150]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"name": "Polygon Example"},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [144.9631, -37.8136],
+            [144.9631, -37.8036],
+            [144.9731, -37.8036],
+            [144.9731, -37.8136],
+            [144.9631, -37.8136]
+          ]
+        ]
+      }
+    }
+  ]
+}
