@@ -1,6 +1,6 @@
-import {createFeatureSelector, createSelector} from "@ngrx/store";
-import {PROFILE_STATE_NAME} from "../../shared/constants/state.constant";
-import {adapter, ProfileState} from "../reducers/profile.reducer";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { PROFILE_STATE_NAME } from '../../shared/constants/state.constant';
+import { adapter, ProfileState } from '../reducers/profile.reducer';
 
 export const selectProfileState =
   createFeatureSelector<ProfileState>(PROFILE_STATE_NAME);
@@ -27,14 +27,12 @@ export const selectProfilesInitialized = createSelector(
   (state: ProfileState) => state.initialized
 );
 
-export const selectProfileById = (id: string) => createSelector(
-  selectProfileEntities,
-  (entities) => {
-    console.log("selectProfileById selector triggered")
+export const selectProfileById = (id: string) =>
+  createSelector(selectProfileEntities, entities => {
+    console.log('selectProfileById selector triggered');
     if (entities) {
       return entities[id];
     } else {
       return undefined;
     }
-  }
-);
+  });

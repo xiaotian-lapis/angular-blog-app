@@ -1,18 +1,13 @@
 <div class="blog-list">
   <!-- Loading Indicator -->
-  <div *ngIf="loading$ | async" class="loading">
-    Loading blogs...
-  </div>
+  <div *ngIf="loading$ | async" class="loading">Loading blogs...</div>
 
   <!-- Error Message -->
-  <div *ngIf="error$ | async as error" class="error">
-    Error: {{ error }}
-  </div>
+  <div *ngIf="error$ | async as error" class="error">Error: {{ error }}</div>
 
   <!-- Blog List -->
-  <ng-container *ngIf="(blogList$ | async) as blogs; else noBlogsTemplate">
+  <ng-container *ngIf="blogList$ | async as blogs; else noBlogsTemplate">
     <ng-container *ngFor="let blog of blogs">
-
       <mat-card class="blog-item">
         <mat-card-header>
           <mat-card-title>{{ blog.title }}</mat-card-title>
@@ -22,9 +17,13 @@
           <p>{{ blog.description }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button routerLink="/blog/{{ blog.id }}" color="primary">View</button>
+          <button color="primary" mat-button routerLink="/blog/{{ blog.id }}">
+            View
+          </button>
           <button mat-button routerLink="/edit-blog/{{ blog.id }}">Edit</button>
-          <button mat-button (click)="deleteBlog(blog.id)"color="warn">Delete</button>
+          <button (click)="deleteBlog(blog.id)" color="warn" mat-button>
+            Delete
+          </button>
         </mat-card-actions>
       </mat-card>
     </ng-container>
@@ -32,8 +31,6 @@
 
   <!-- Template for No Blogs -->
   <ng-template #noBlogsTemplate>
-    <div class="no-blogs">
-      No blogs available.
-    </div>
+    <div class="no-blogs">No blogs available.</div>
   </ng-template>
 </div>

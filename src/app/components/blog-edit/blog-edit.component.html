@@ -2,30 +2,40 @@
   <!-- Title Field -->
   <mat-form-field>
     <mat-label>Title:</mat-label>
-    <input matInput formControlName="title" placeholder="Enter title">
+    <input formControlName="title" matInput placeholder="Enter title" />
   </mat-form-field>
 
   <!-- Description Field -->
   <mat-form-field>
     <mat-label>Description:</mat-label>
-    <textarea matInput formControlName="description" placeholder="Enter description"></textarea>
+    <textarea
+      formControlName="description"
+      matInput
+      placeholder="Enter description"></textarea>
   </mat-form-field>
 
   <!-- Content Field -->
   <mat-form-field>
     <mat-label>Content:</mat-label>
-    <textarea matInput formControlName="content" placeholder="Enter content"></textarea>
+    <textarea
+      formControlName="content"
+      matInput
+      placeholder="Enter content"></textarea>
   </mat-form-field>
 
   <!-- Author Field -->
   <mat-form-field>
     <mat-label>Author:</mat-label>
-    <input matInput [disabled]="blog != null" formControlName="author" placeholder="Enter author name">
+    <input
+      [disabled]="blog != null"
+      formControlName="author"
+      matInput
+      placeholder="Enter author name" />
   </mat-form-field>
 
   <!-- Buttons -->
   <div>
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-    <button mat-button (click)="goBack()">Go back</button>
+    <button color="primary" mat-raised-button type="submit">Submit</button>
+    <button (click)="goBack()" mat-button>Go back</button>
   </div>
 </form>

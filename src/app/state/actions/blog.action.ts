@@ -1,5 +1,5 @@
-import {createActionGroup, emptyProps, props} from "@ngrx/store";
-import {IBlog} from "../../shared/models/blog.model";
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { IBlog } from '../../shared/models/blog.model';
 
 /**
  * Blog Actions
@@ -9,38 +9,37 @@ export const BlogActions = createActionGroup({
   events: {
     'Load Blogs': emptyProps(),
     'Add Blog': props<{
-      id: string,
-      author: string,
-      title: string,
-      description: string,
-      content: string,
-      createdTime: Date,
-      updatedTime: Date,
+      id: string;
+      author: string;
+      title: string;
+      description: string;
+      content: string;
+      createdTime: Date;
+      updatedTime: Date;
       location: {
-        lat: number,
-        lng: number,
-        addr: string,
-      }
+        lat: number;
+        lng: number;
+        addr: string;
+      };
     }>(),
     'Remove Blog': props<{
-      id: string,
+      id: string;
     }>(),
     'Update Blog': props<{
-      id: string,
-      author: string,
-      title: string,
-      description: string,
-      content: string,
-      createdTime: Date,
-      updatedTime: Date,
+      id: string;
+      author: string;
+      title: string;
+      description: string;
+      content: string;
+      createdTime: Date;
+      updatedTime: Date;
       location: {
-        lat: number,
-        lng: number,
-        addr: string,
-      }
+        lat: number;
+        lng: number;
+        addr: string;
+      };
     }>(),
   },
-
 });
 
 /**
@@ -49,7 +48,7 @@ export const BlogActions = createActionGroup({
 export const BlogApiActions = createActionGroup({
   source: 'Blog API',
   events: {
-    'Blogs Loaded Success': props<{ blogs: IBlog[] | null }>(),  // Action for successful blog load
-    'Blogs Loaded Error': props<{ error: { message: string } }>(),  // Action for error in loading blogs
+    'Blogs Loaded Success': props<{ blogs: IBlog[] | null }>(), // Action for successful blog load
+    'Blogs Loaded Error': props<{ error: { message: string } }>(), // Action for error in loading blogs
   },
 });
