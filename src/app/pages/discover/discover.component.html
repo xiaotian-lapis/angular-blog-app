@@ -1,2 +1,12 @@
 <div *ngIf="loading$ | async">Loading blogs...</div>
-<div id="discovery-map" style="height: 88%"></div>
+<div
+  leaflet
+  leafletDraw
+  style="height: 88%"
+  [leafletOptions]="options"
+  [leafletDrawOptions]="drawOptions"
+  (leafletDrawCreated)="onDrawCreated($event)"
+  (leafletMapReady)="onMapReady($event)">
+  <div [leafletLayer]="drawnItems"></div>
+  <div [leafletLayer]="blogMarkerClusterGroup"></div>
+</div>

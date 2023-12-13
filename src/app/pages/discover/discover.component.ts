@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import 'leaflet-draw';
 import { Store } from '@ngrx/store';
 import {
   selectAllBlogs,
@@ -19,14 +20,22 @@ import {
 } from '../../shared/constants/geo.constant';
 import { LocationService } from '../../services/location.service';
 import { SearchControl } from 'leaflet-geosearch';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 
-console.log(window.L === L);
-console.log(typeof L.MarkerClusterGroup);
+// fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
+// @ts-ignore
+window.type = '';
 
 @Component({
   selector: 'app-discover',
   standalone: true,
-  imports: [LeafletModule, LeafletMarkerClusterModule, AsyncPipe, NgIf],
+  imports: [
+    LeafletModule,
+    LeafletMarkerClusterModule,
+    AsyncPipe,
+    NgIf,
+    LeafletDrawModule,
+  ],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css',
 })
@@ -41,8 +50,27 @@ export class DiscoverComponent implements OnInit {
     zoom: MAP_MAX_ZOOM,
     center: L_COORDINATE_MELBOURNE,
   };
-  // Array to hold the markers
-  markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
+
+  // layer for drawn items
+  drawnItems: L.FeatureGroup = L.featureGroup();
+  // leaflet draw options
+  drawOptions = {
+    draw: {
+      marker: {
+        icon: L.icon({
+          iconUrl: './assets/marker-icon.png',
+          iconSize: [35, 35],
+        }),
+      },
+    },
+    edit: {
+      featureGroup: this.drawnItems,
+    },
+  };
+
+  // Array to hold the blog markers
+  blogMarkerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
+
   // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
   loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
@@ -56,13 +84,42 @@ export class DiscoverComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeMap();
-    this.createLegend();
-    this.createScale();
-    this.createGetSearch();
-
+    console.log('DiscoverComponent initialized');
     // dispatch load action to load logs into store
     this.store.dispatch(BlogActions.loadBlogs());
+  }
+
+  /**
+   * Adds the created layer to the drawnItems layer group.
+   *
+   * @param e - The event object containing the created layer.
+   */
+  onDrawCreated(e: any) {
+    this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
+  }
+
+  /**
+   * Hook of map ready event
+   *
+   * @param {L.Map} map - The Leaflet map object from html event input.
+   */
+  onMapReady(map: L.Map) {
+    console.log('map ready', map);
+    this.map = map;
+    this.initializeMap();
+  }
+
+  /**
+   * Initialize the map
+   */
+  private initializeMap(): void {
+    // zoom the map to the user's current location
+    this.map.locate({ setView: true, maxZoom: MAP_MAX_ZOOM });
+
+    // init UI Layers
+    this.createLegend();
+    this.createScale();
+    this.createGeoSearch();
 
     // convert the blogs to marker observables
     const markerClusterData$ = this.selectBlogs$.pipe(
@@ -77,20 +134,11 @@ export class DiscoverComponent implements OnInit {
     // Subscribe to the markerClusterData$ observable
     markerClusterData$.subscribe(markerData => {
       try {
-        this.markerClusterGroup.addLayers(markerData);
+        this.blogMarkerClusterGroup.addLayers(markerData);
       } catch (error) {
         console.error('Error updating marker cluster:', error);
       }
     });
-  }
-
-  /**
-   * Initialize the map
-   */
-  private initializeMap(): void {
-    this.map = L.map('discovery-map', this.options);
-    this.map.locate({ setView: true, maxZoom: MAP_MAX_ZOOM });
-    this.map.addLayer(this.markerClusterGroup);
   }
 
   /**
@@ -126,7 +174,7 @@ export class DiscoverComponent implements OnInit {
     L.control.scale().addTo(this.map);
   }
 
-  private createGetSearch(): void {
+  private createGeoSearch(): void {
     // @ts-ignore
     const searchControl = new SearchControl({
       provider: this.locationService.getGeoSearchProvider(),
