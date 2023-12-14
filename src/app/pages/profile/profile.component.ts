@@ -12,7 +12,7 @@ import {ProfileActions} from '../../state/actions/profile.action';
   standalone: true,
   imports: [ReactiveFormsModule, NgIf, DatePipe, AsyncPipe],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  styleUrls: ['./profile.component.scss'],
   providers: [DatePipe],
 })
 export class ProfileComponent implements OnInit {

@@ -11,7 +11,7 @@ import {equals} from "../../shared/utils/ramda-functions.util";
   standalone: true,
   imports: [RouterLink, DatePipe],
   templateUrl: './blog-content.component.html',
-  styleUrl: './blog-content.component.css',
+  styleUrl: './blog-content.component.scss',
 })
 export class BlogContentComponent implements OnInit, OnDestroy {
   blogContent = '';
