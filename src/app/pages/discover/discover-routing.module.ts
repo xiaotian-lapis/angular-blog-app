@@ -1,6 +1,6 @@
-import { RouterModule, Routes } from '@angular/router';
-import { DiscoverComponent } from './discover.component';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {DiscoverComponent} from './discover.component';
+import {NgModule} from '@angular/core';
 
 const routes: Routes = [
   {
@@ -13,4 +13,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DiscoverRoutingModule {}
+export class DiscoverRoutingModule {
+}

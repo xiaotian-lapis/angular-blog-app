@@ -1,9 +1,8 @@
-
 <div *ngIf="(selectBlogViewStatus$ | async) as viewStatus">
   <div *ngIf="viewStatus === ViewStatus.Loading" class="loading">Loading blogs...</div>
 </div>
 
-<geo-file-upload (geoJsonParsed)="handleGeoJson($event)"></geo-file-upload>
+<app-geo-file-upload (geoJsonParsed)="handleGeoJson($event)"></app-geo-file-upload>
 
 <div
   (leafletDrawCreated)="onDrawCreated($event)"

@@ -6,7 +6,7 @@
         class="form-control"
         formControlName="name"
         id="name"
-        type="text" />
+        type="text"/>
 
       <div
         *ngIf="
@@ -22,7 +22,7 @@
         class="form-control"
         formControlName="email"
         id="email"
-        type="email" />
+        type="email"/>
 
       <div
         *ngIf="
@@ -43,14 +43,14 @@
         class="form-control"
         formControlName="password"
         id="password"
-        type="password" />
+        type="password"/>
       <div
         *ngIf="
           profileForm.get('password')?.invalid &&
           profileForm.get('password')?.touched
         ">
         <small class="form-text text-danger"
-          >Password must be at least 8 characters.</small
+        >Password must be at least 8 characters.</small
         >
       </div>
     </div>
@@ -61,13 +61,13 @@
         class="form-control"
         formControlName="age"
         id="age"
-        type="number" />
+        type="number"/>
       <div
         *ngIf="
           profileForm.get('age')?.invalid && profileForm.get('age')?.touched
         ">
         <small class="form-text text-danger"
-          >You must be at least 18 years old.</small
+        >You must be at least 18 years old.</small
         >
       </div>
     </div>
@@ -79,7 +79,7 @@
       Submit
     </button>
   </form>
-  <hr />
+  <hr/>
   <div class="last-edited">
     <div *ngIf="profile$ | async as profile">
       Last Edited: {{ profile?.updatedTime | date: 'dd/MM/yyyy HH:mm:ss' }}

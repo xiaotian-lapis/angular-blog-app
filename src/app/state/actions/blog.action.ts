@@ -1,5 +1,5 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IBlog } from '../../shared/models/blog.model';
+import {createActionGroup, emptyProps, props} from '@ngrx/store';
+import {IBlog} from '../../shared/models/blog.model';
 
 /**
  * Blog Actions

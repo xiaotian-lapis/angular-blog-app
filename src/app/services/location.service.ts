@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {OpenStreetMapProvider} from 'leaflet-geosearch';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +50,7 @@ export class LocationService {
    * @param lng
    */
   getPlaceNameByCoordinate(lat: number, lng: number): Observable<any> {
-    return of(this.geoSearchProvider.search({ query: `${lat}, ${lng}` }));
+    return of(this.geoSearchProvider.search({query: `${lat}, ${lng}`}));
   }
 
   /**
@@ -58,6 +58,6 @@ export class LocationService {
    * @param placeName
    */
   getCoordinateByPlaceName(placeName: string): Observable<any> {
-    return of(this.geoSearchProvider.search({ query: placeName }));
+    return of(this.geoSearchProvider.search({query: placeName}));
   }
 }

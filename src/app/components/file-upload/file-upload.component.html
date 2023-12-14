@@ -4,14 +4,14 @@
     [placeholder]="fileName ? fileName : 'No file selected'"
     [value]="fileName"
     matInput
-    readonly />
+    readonly/>
 
   <input
     #fileUpload
     (change)="onFileSelected($event)"
     [accept]="requiredFileType"
     style="display: none"
-    type="file" />
+    type="file"/>
 
   <button (click)="fileUpload.click()" mat-icon-button matSuffix>
     <mat-icon>attach_file</mat-icon>

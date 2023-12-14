@@ -1,20 +1,15 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { IBlog } from '../../shared/models/blog.model';
-import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { BlogActions } from '../../state/actions/blog.action';
-import { ActivatedRoute, Router } from '@angular/router';
-import { selectAllBlogs } from '../../state/selectors/blog.selector';
-import { genRandomId } from '../../shared/utils/random.util';
+import {IBlog} from '../../shared/models/blog.model';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {Store} from '@ngrx/store';
+import {BlogActions} from '../../state/actions/blog.action';
+import {ActivatedRoute, Router} from '@angular/router';
+import {selectAllBlogs} from '../../state/selectors/blog.selector';
+import {genRandomId} from '../../shared/utils/random.util';
 import {catchError, map, of, Subscription, tap} from 'rxjs';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { LocationService } from '../../services/location.service';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {LocationService} from '../../services/location.service';
 import {NgIf} from "@angular/common";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 
@@ -48,10 +43,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       }
     ),
   });
-
-  private subscription = new Subscription();
-
   isloading = false;
+  private subscription = new Subscription();
 
   constructor(
     private store: Store,
@@ -59,7 +52,8 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private locationService: LocationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -129,10 +123,10 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
           if (this.blog) {
             console.log('update');
-            this.store.dispatch(BlogActions.updateBlog({ ...blogData }));
+            this.store.dispatch(BlogActions.updateBlog({...blogData}));
           } else {
             console.log('add');
-            this.store.dispatch(BlogActions.addBlog({ ...blogData }));
+            this.store.dispatch(BlogActions.addBlog({...blogData}));
           }
 
           // Jump back to the home page

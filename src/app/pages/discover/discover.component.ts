@@ -18,7 +18,7 @@ import {FileUploadComponent} from '../../components/file-upload/file-upload.comp
 import {ViewStatus} from "../../shared/constants/status.constant";
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
-// @ts-ignore
+// @ts-expect-error - fix rect draw issue
 window.type = '';
 
 @Component({
@@ -78,7 +78,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
   selectBlogViewStatus$ = this.store.select(selectBlogsViewStatus);
-
+  protected readonly ViewStatus = ViewStatus;
   private subscription = new Subscription();
 
   constructor(
@@ -117,6 +117,14 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.map = map;
     this.initializeMap();
   }
+
+  /**
+   * Handle the GeoJSON data.
+   */
+  handleGeoJson = (data: any) => {
+    this.geoJsonDataLayer.addData(data);
+    console.log('Received GeoJSON:', data);
+  };
 
   /**
    * Initialize the map
@@ -190,7 +198,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   private createGeoSearch(): void {
-    // @ts-ignore
+    // @ts-expect-error - referred from the leaflet-geosearch example
     const searchControl = new SearchControl({
       provider: this.locationService.getGeoSearchProvider(),
       style: 'bar',
@@ -243,13 +251,4 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       return blogMarker;
     });
   }
-
-  /**
-   * Handle the GeoJSON data.
-   */
-  handleGeoJson = (data: any) => {
-    this.geoJsonDataLayer.addData(data);
-    console.log('Received GeoJSON:', data);
-  };
-  protected readonly ViewStatus = ViewStatus;
 }

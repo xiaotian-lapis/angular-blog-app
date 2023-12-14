@@ -1,21 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { AsyncPipe, DatePipe, Location, NgIf } from '@angular/common';
-import { CookieService } from 'ngx-cookie-service';
-import { LAST_UPDATED_DATE_COOKIE_NAME } from '../../shared/constants/cookie.constant';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import {
-  selectAllProfiles,
-  selectProfileById, selectProfilesViewStatus,
-} from '../../state/selectors/profile.selector';
-import { IProfile } from '../../shared/models/profile.model';
-import { ProfileActions } from '../../state/actions/profile.action';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {AsyncPipe, DatePipe, Location, NgIf} from '@angular/common';
+import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {selectAllProfiles, selectProfileById, selectProfilesViewStatus,} from '../../state/selectors/profile.selector';
+import {IProfile} from '../../shared/models/profile.model';
+import {ProfileActions} from '../../state/actions/profile.action';
 
 @Component({
   selector: 'app-profile',
@@ -58,7 +48,8 @@ export class ProfileComponent implements OnInit {
     private readonly location: Location,
     private fb: FormBuilder,
     private store: Store
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     // dispatch load action to load logs into store

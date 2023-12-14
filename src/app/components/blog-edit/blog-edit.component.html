@@ -2,7 +2,7 @@
   <!-- Title Field -->
   <mat-form-field>
     <mat-label>Title:</mat-label>
-    <input formControlName="title" matInput placeholder="Enter title" />
+    <input formControlName="title" matInput placeholder="Enter title"/>
   </mat-form-field>
 
   <!-- Description Field -->
@@ -27,10 +27,10 @@
   <mat-form-field>
     <mat-label>Author:</mat-label>
     <input
-      [disabled]="blog != null"
+      [disabled]="blog !== null"
       formControlName="author"
       matInput
-      placeholder="Enter author name" />
+      placeholder="Enter author name"/>
   </mat-form-field>
 
   <!-- Buttons -->

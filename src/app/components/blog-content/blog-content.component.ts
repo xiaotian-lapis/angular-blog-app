@@ -6,7 +6,7 @@ import {selectAllBlogs} from '../../state/selectors/blog.selector';
 import {map, Subscription} from 'rxjs';
 
 @Component({
-  selector: 'blog-content',
+  selector: 'app-blog-content',
   standalone: true,
   imports: [RouterLink, DatePipe],
   templateUrl: './blog-content.component.html',

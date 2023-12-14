@@ -30,20 +30,20 @@ export const profileReducer = createReducer(
   }),
   on(
     ProfileActions.updateProfile,
-    (state, { id, name, email, bio, password, age, updatedTime }) => {
+    (state, {id, name, email, bio, password, age, updatedTime}) => {
       console.log('updateProfile reducer triggered');
       console.log(state.entities);
-      const changes = { name, email, bio, password, age, updatedTime };
-      return adapter.updateOne({ id, changes }, state);
+      const changes = {name, email, bio, password, age, updatedTime};
+      return adapter.updateOne({id, changes}, state);
     }
   ),
-  on(ProfileApiActions.profileLoadedSuccess, (state, { profile }) => {
+  on(ProfileApiActions.profileLoadedSuccess, (state, {profile}) => {
     if (profile == null) {
       // if incoming profile is null, just set loading state to false.
       console.log(
         'profileLoadedSuccess reducer triggered, and profile is null'
       );
-      return { ...state, viewStatus: ViewStatus.Success};
+      return {...state, viewStatus: ViewStatus.Success};
     }
     console.log(
       'profileLoadedSuccess reducer triggered, and profile is not null'
@@ -53,8 +53,8 @@ export const profileReducer = createReducer(
       viewStatus: ViewStatus.Success,
     });
   }),
-  on(ProfileApiActions.profileLoadedError, (state, { error }) => {
+  on(ProfileApiActions.profileLoadedError, (state, {error}) => {
     console.log('profileLoadedError reducer triggered');
-    return { ...state, error, viewStatus: ViewStatus.Failure };
+    return {...state, error, viewStatus: ViewStatus.Failure};
   })
 );

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { IBlog } from '../shared/models/blog.model';
-import { environment } from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {IBlog} from '../shared/models/blog.model';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,8 @@ import { environment } from '../../environments/environment';
 export class BlogService {
   private apiUrl = `${environment.apiUrl}/blogs`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   /**
    * Get blogs from backend api
