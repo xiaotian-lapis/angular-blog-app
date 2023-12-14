@@ -3,6 +3,7 @@ import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet-draw';
+import 'leaflet-measure';
 import {Store} from '@ngrx/store';
 import {selectAllBlogs, selectBlogsViewStatus,} from '../../state/selectors/blog.selector';
 import {BlogActions} from '../../state/actions/blog.action';
@@ -17,6 +18,10 @@ import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
 import {FileUploadComponent} from '../../components/file-upload/file-upload.component';
 import {ViewStatus} from "../../shared/constants/status.constant";
 import {equals, or} from "../../shared/utils/ramda-functions.util";
+import {blogMarkerIcon, blueMarkerIcon, redMarkerIcon} from "../../shared/resource/map/marker-icon.resource";
+import {CoordinatesControl} from "./map-controls/coordinates.control";
+import {measureControl} from "./map-controls/measure.control";
+import {LegendControl} from "./map-controls/legend.control";
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-expect-error - fix rect draw issue
@@ -57,7 +62,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         maxZoom: MAP_MAX_ZOOM,
       }),
     ],
-    zoom: MAP_MAX_ZOOM,
+    zoom: 15,
     center: L_COORDINATE_MELBOURNE,
   };
 
@@ -65,10 +70,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   drawOptions = {
     draw: {
       marker: {
-        icon: L.icon({
-          iconUrl: './assets/marker-icon.png',
-          iconSize: [35, 35],
-        }),
+        icon: blueMarkerIcon,
       },
     },
     edit: {
@@ -132,11 +134,13 @@ export class DiscoverComponent implements OnInit, OnDestroy {
    */
   private initializeMap(): void {
     // zoom the map to the user's current location
-    this.map.locate({setView: true, maxZoom: MAP_MAX_ZOOM});
+    this.map.locate({setView: true, maxZoom: 15});
 
     // init UI Layers
     this.createLegend();
     this.createScale();
+    this.createMeasure();
+    this.createCoordinates();
     this.createGeoSearch();
 
     // convert the blogs to marker observables
@@ -165,29 +169,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
    * Create the legend for the map
    */
   private createLegend(): void {
-    const legend = L.Control.extend({
-      options: {
-        position: 'bottomright',
-      },
-
-      onAdd: function () {
-        const div = L.DomUtil.create('div', 'info legend');
-        div.style.backgroundColor = 'white';
-        div.innerHTML = `
-        <h4>Map Legend</h4>
-        <div>
-        <span style="background-color: red; height: 10px;
-            width: 10px; display: inline-block; margin-right: 5px;">
-        </span>
-        Blogs
-        </div>
-      `;
-        return div;
-      },
-    });
-
-    // add the legend to the map
-    new legend().addTo(this.map);
+    this.map.addControl(new LegendControl());
   }
 
   /**
@@ -196,6 +178,19 @@ export class DiscoverComponent implements OnInit, OnDestroy {
    */
   private createScale(): void {
     L.control.scale().addTo(this.map);
+  }
+
+  /**
+   * Creates a measure control and adds it to the map.
+   *
+   * @private
+   */
+  private createMeasure(): void {
+    this.map.addControl(measureControl);
+  }
+
+  private createCoordinates(): void {
+    this.map.addControl(new CoordinatesControl());
   }
 
   private createGeoSearch(): void {
@@ -207,10 +202,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       showPopup: true,
       notFoundMessage: 'Sorry, that address could not be found.',
       marker: {
-        icon: L.icon({
-          iconUrl: './assets/red-marker.png',
-          iconSize: [35, 35],
-        }),
+        icon: redMarkerIcon,
       },
     });
 
@@ -234,11 +226,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       const blogMarker = L.marker([blog.location.lat, blog.location.lng], {
         title: blog.title,
         riseOnHover: true,
-        icon: L.icon({
-          iconUrl: './assets/marker-icon.png',
-          shadowUrl: './assets/marker-shadow.png',
-          iconSize: [20, 35],
-        }),
+        icon: blogMarkerIcon,
       }).bindPopup(popupContent);
 
       // attach event listener to the button for jumping to blog page

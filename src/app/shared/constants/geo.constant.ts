@@ -7,4 +7,4 @@ export const L_COORDINATE_MELBOURNE = L.latLng(
   144.9566792258329
 );
 
-export const MAP_MAX_ZOOM = 15;
+export const MAP_MAX_ZOOM = 18;
