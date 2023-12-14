@@ -16,6 +16,7 @@ import {SearchControl} from 'leaflet-geosearch';
 import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
 import {FileUploadComponent} from '../../components/file-upload/file-upload.component';
 import {ViewStatus} from "../../shared/constants/status.constant";
+import {equals, or} from "../../shared/utils/ramda-functions.util";
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-expect-error - fix rect draw issue
@@ -251,4 +252,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       return blogMarker;
     });
   }
+
+  protected readonly equals = equals;
+  protected readonly or = or;
 }

@@ -3,6 +3,7 @@ import {createReducer, on} from '@ngrx/store';
 import {ProfileActions, ProfileApiActions} from '../actions/profile.action';
 import {IProfile} from '../../shared/models/profile.model';
 import {ViewStatus} from "../../shared/constants/status.constant";
+import {equals} from "../../shared/utils/ramda-functions.util";
 
 export interface ProfileState extends EntityState<IProfile> {
   error: any;
@@ -20,7 +21,7 @@ export const profileReducer = createReducer(
   initialState,
   on(ProfileActions.loadProfile, state => {
     console.log('loadProfile action triggered');
-    if (state.viewStatus === ViewStatus.Initial) {
+    if (equals(state.viewStatus, ViewStatus.Initial)) {
       return {...state, viewStatus: ViewStatus.Loading};
     } else {
       // if already initialized, just set view status to reloading,
@@ -38,7 +39,7 @@ export const profileReducer = createReducer(
     }
   ),
   on(ProfileApiActions.profileLoadedSuccess, (state, {profile}) => {
-    if (profile == null) {
+    if (profile === null) {
       // if incoming profile is null, just set loading state to false.
       console.log(
         'profileLoadedSuccess reducer triggered, and profile is null'

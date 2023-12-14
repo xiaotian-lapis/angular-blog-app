@@ -6,6 +6,7 @@ import {catchError, map, mergeMap, of} from 'rxjs';
 import {ProfileActions, ProfileApiActions} from '../actions/profile.action';
 import {selectProfilesViewStatus} from "../selectors/profile.selector";
 import {ViewStatus} from "../../shared/constants/status.constant";
+import {equals} from "../../shared/utils/ramda-functions.util";
 
 @Injectable()
 export class ProfileEffects {
@@ -15,7 +16,7 @@ export class ProfileEffects {
       // select Initialized info from store to determine whether to load blogs from backend api
       concatLatestFrom(() => this.store.select(selectProfilesViewStatus)),
       mergeMap(([_, viewStatus]) => {
-        if (viewStatus === ViewStatus.Reloading) {
+        if (equals(viewStatus, ViewStatus.Reloading)) {
           console.log(
             'already initialized, dispatch loaded success with null in profile'
           );

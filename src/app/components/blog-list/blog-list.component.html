@@ -1,17 +1,16 @@
 <div class="blog-list">
   <div *ngIf="(viewStatus$ | async) as viewStatus">
 
-    <div *ngIf="viewStatus === ViewStatus.Initial">Initializing...</div>
+    <div *ngIf="equals(viewStatus, ViewStatus.Initial)">Initializing...</div>
 
-    <div *ngIf="viewStatus === ViewStatus.Loading
-      || viewStatus === ViewStatus.Reloading" class="loading">
+    <div *ngIf="or(equals(viewStatus, ViewStatus.Loading), equals(viewStatus, ViewStatus.Reloading))" class="loading">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       <mat-hint>Fetching blogs from backend...</mat-hint>
     </div>
 
-    <div *ngIf="viewStatus === ViewStatus.Failure" class="error">Error loading blogs</div>
+    <div *ngIf="equals(viewStatus, ViewStatus.Failure)" class="error">Error loading blogs</div>
 
-    <ng-container *ngIf="viewStatus === ViewStatus.Success">
+    <ng-container *ngIf="equals(viewStatus, ViewStatus.Success)">
       <ng-container *ngIf="blogList$ | async as blogs; else noBlogsTemplate">
         <ng-container *ngFor="let blog of blogs">
           <mat-card class="blog-item">

@@ -1,5 +1,7 @@
 <div *ngIf="(selectBlogViewStatus$ | async) as viewStatus">
-  <div *ngIf="viewStatus === ViewStatus.Loading" class="loading">Loading blogs...</div>
+  <div *ngIf="or(equals(viewStatus, ViewStatus.Loading), equals(viewStatus, ViewStatus.Reloading))" class="loading">
+    Loading blogs...
+  </div>
 </div>
 
 <app-geo-file-upload (geoJsonParsed)="handleGeoJson($event)"></app-geo-file-upload>

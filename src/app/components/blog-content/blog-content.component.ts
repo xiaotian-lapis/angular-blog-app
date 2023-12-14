@@ -4,6 +4,7 @@ import {DatePipe, Location} from '@angular/common';
 import {Store} from '@ngrx/store';
 import {selectAllBlogs} from '../../state/selectors/blog.selector';
 import {map, Subscription} from 'rxjs';
+import {equals} from "../../shared/utils/ramda-functions.util";
 
 @Component({
   selector: 'app-blog-content',
@@ -40,7 +41,7 @@ export class BlogContentComponent implements OnInit, OnDestroy {
         this.store
           .select(selectAllBlogs)
           .pipe(map(blogs => blogs.find(
-              blog => blog.id === blogId
+              blog => equals(blog.id, blogId)
             ))
           )
           .subscribe(blog => {

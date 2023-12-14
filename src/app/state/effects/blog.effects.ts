@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {BlogActions, BlogApiActions} from '../actions/blog.action';
 import {selectBlogsViewStatus} from "../selectors/blog.selector";
 import {ViewStatus} from "../../shared/constants/status.constant";
+import {equals} from "../../shared/utils/ramda-functions.util";
 
 @Injectable()
 export class BlogEffects {
@@ -15,7 +16,7 @@ export class BlogEffects {
       // select Initialized info from store to determine whether to load blogs from backend api
       concatLatestFrom(() => this.store.select(selectBlogsViewStatus)),
       mergeMap(([_, viewStatus]) => {
-        if (viewStatus === ViewStatus.Reloading) {
+        if (equals(viewStatus, ViewStatus.Reloading)) {
           // already initialized, don't load blogs from backend api
           return of(BlogApiActions.blogsLoadedSuccess({blogs: null}));
         } else {

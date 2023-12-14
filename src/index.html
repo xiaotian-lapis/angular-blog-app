@@ -15,5 +15,29 @@
 </head>
 <body class="mat-typography">
 <app-root></app-root>
+
+<script type='text/javascript'>
+  function showBrowserAlert() {
+    var TRIDENT = /(msie|trident)/i.test(navigator.userAgent);
+    if (TRIDENT) {
+      document.body.style.backgroundColor = '#003150';
+      document.body.style.overflow = 'hidden';
+      var elem = document.createElement('div');
+      elem.className = 'unsupported-browser';
+      elem.style.cssText = 'display: block; padding: 24px; background-color: #003150; color: #FFFFFF; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 1001';
+      elem.innerHTML = '<div style="position: relative; background-color: #FFF; max-width: 320px; border-radius: 4px; margin: 0 auto; padding: 24px; top: 50%; color: rgba(0, 0, 0,.87); transform: translateY(-50%);"><b>Unsupported Browser!</b> This website is best viewed in the latest version of chrome, edge, firefox and safari.<div>';
+      document.body.appendChild(elem);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', showBrowserAlert);
+</script>
+
+<noscript>
+  <style>body {
+    background-color: #003b78;
+  }</style>
+  <div style="display: block; padding: 24px; color: #FFFFFF;">Please enable javascript to view this website.</div>
+</noscript>
 </body>
 </html>

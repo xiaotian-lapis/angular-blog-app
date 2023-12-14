@@ -3,6 +3,7 @@ import {createReducer, on} from '@ngrx/store';
 import {IBlog} from '../../shared/models/blog.model';
 import {BlogActions, BlogApiActions} from '../actions/blog.action';
 import {ViewStatus} from "../../shared/constants/status.constant";
+import {equals} from "../../shared/utils/ramda-functions.util";
 
 export interface BlogState extends EntityState<IBlog> {
   error: any;
@@ -20,7 +21,7 @@ export const blogReducer = createReducer(
   initialState,
   on(BlogActions.loadBlogs, state => {
     console.log('loadBlogs action triggered');
-    if (state.viewStatus === ViewStatus.Initial) {
+    if (equals(state.viewStatus, ViewStatus.Initial)) {
       return {...state, viewStatus: ViewStatus.Loading};
     } else {
       // if already initialized, just set view status to reloading,
@@ -75,7 +76,7 @@ export const blogReducer = createReducer(
     return adapter.removeOne(id, state);
   }),
   on(BlogApiActions.blogsLoadedSuccess, (state, {blogs}) => {
-    if (blogs == null) {
+    if (blogs === null) {
       // if incoming blogs is null, just set loading state to false.
       console.log('blogsLoadedSuccess reducer triggered, and blogs is null');
       return {...state, viewStatus: ViewStatus.Success};

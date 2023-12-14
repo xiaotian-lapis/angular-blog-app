@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {ViewStatus} from "../../shared/constants/status.constant";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {equals, or} from "../../shared/utils/ramda-functions.util";
 
 @Component({
   selector: 'app-blog-list',
@@ -33,6 +34,9 @@ export class BlogListComponent implements OnInit {
 
   viewStatus$: Observable<ViewStatus> = this.store.select(selectBlogsViewStatus);
   protected readonly ViewStatus = ViewStatus;
+
+  protected readonly equals = equals;
+  protected readonly or = or;
 
   constructor(private store: Store) {
   }
