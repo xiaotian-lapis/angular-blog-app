@@ -5,14 +5,15 @@ import { IBlog } from '../../shared/models/blog.model';
 import { Observable } from 'rxjs';
 import {
   selectAllBlogs,
-  selectBlogsError,
-  selectBlogsInitialized,
-  selectBlogsLoading,
+  selectBlogsViewStatus,
 } from '../../state/selectors/blog.selector';
 import { Store } from '@ngrx/store';
 import { BlogActions } from '../../state/actions/blog.action';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import {ViewStatus} from "../../shared/constants/status.constant";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @Component({
   selector: 'blog-list',
@@ -24,6 +25,8 @@ import { MatButtonModule } from '@angular/material/button';
     NgIf,
     MatCardModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatProgressBarModule,
   ],
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.css',
@@ -31,14 +34,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class BlogListComponent implements OnInit {
   blogList$: Observable<IBlog[]> = this.store.select(selectAllBlogs);
 
-  // load and error selector
-  loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
-  error$: Observable<any> = this.store.select(selectBlogsError);
-  isInitialized$: Observable<boolean> = this.store.select(
-    selectBlogsInitialized
-  );
+  viewStatus$: Observable<ViewStatus> = this.store.select(selectBlogsViewStatus);
 
-  // TODO constuctor -> inject
   constructor(private store: Store) {}
 
   ngOnInit(): void {
@@ -57,4 +54,6 @@ export class BlogListComponent implements OnInit {
       })
     );
   }
+
+  protected readonly ViewStatus = ViewStatus;
 }

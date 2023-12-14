@@ -34,8 +34,13 @@
   </mat-form-field>
 
   <!-- Buttons -->
+  <div *ngIf="isloading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-hint>Please wait for location service...</mat-hint>
+  </div>
   <div>
     <button color="primary" mat-raised-button type="submit">Submit</button>
     <button (click)="goBack()" mat-button>Go back</button>
   </div>
+
 </form>

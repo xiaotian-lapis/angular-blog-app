@@ -12,8 +12,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   selectAllProfiles,
-  selectProfileById,
-  selectProfilesLoading,
+  selectProfileById, selectProfilesViewStatus,
 } from '../../state/selectors/profile.selector';
 import { IProfile } from '../../shared/models/profile.model';
 import { ProfileActions } from '../../state/actions/profile.action';
@@ -27,11 +26,8 @@ import { ProfileActions } from '../../state/actions/profile.action';
   providers: [DatePipe],
 })
 export class ProfileComponent implements OnInit {
-  loading$: Observable<boolean> = this.store.select(selectProfilesLoading);
-  error$: Observable<any> = this.store.select(selectProfilesLoading);
-  isInitialized$: Observable<boolean> = this.store.select(
-    selectProfilesLoading
-  );
+  viewStatus$ = this.store.select(selectProfilesViewStatus);
+
   profileForm = this.fb.group({
     name: new FormControl<string>('', {
       validators: [Validators.required],
@@ -51,6 +47,7 @@ export class ProfileComponent implements OnInit {
       nonNullable: true,
     }),
   });
+
   // temporary hard code profile id
   private profileId: string = '1';
   profile$: Observable<IProfile | undefined> = this.store.select(
@@ -58,7 +55,6 @@ export class ProfileComponent implements OnInit {
   );
 
   constructor(
-    private cookieService: CookieService,
     private readonly location: Location,
     private fb: FormBuilder,
     private store: Store
@@ -82,12 +78,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    // set current date in cookie as last updated date
-    this.cookieService.set(
-      LAST_UPDATED_DATE_COOKIE_NAME,
-      new Date().toISOString()
-    );
-
     // debug show form value
     const formValue: IProfile = {
       id: this.profileId,

@@ -13,19 +13,14 @@ export const {
   selectTotal: selectTotalBlogs,
 } = adapter.getSelectors(selectBlogState);
 
-export const selectBlogsLoading = createSelector(
-  selectBlogState,
-  (state: BlogState) => state.loading
-);
-
 export const selectBlogsError = createSelector(
   selectBlogState,
   (state: BlogState) => state.error
 );
 
-export const selectBlogsInitialized = createSelector(
+export const selectBlogsViewStatus = createSelector(
   selectBlogState,
-  (state: BlogState) => state.initialized
+  (state: BlogState) => state.viewStatus
 );
 
 export const selectBlogById = createSelector(

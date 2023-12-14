@@ -1,27 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet-draw';
-import { Store } from '@ngrx/store';
-import {
-  selectAllBlogs,
-  selectBlogsLoading,
-} from '../../state/selectors/blog.selector';
-import { BlogActions } from '../../state/actions/blog.action';
-import { Router } from '@angular/router';
-import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
-import { catchError, distinctUntilChanged, map, Observable, of } from 'rxjs';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
-import {
-  BASEMAP_URL,
-  L_COORDINATE_MELBOURNE,
-  MAP_MAX_ZOOM,
-} from '../../shared/constants/geo.constant';
-import { LocationService } from '../../services/location.service';
-import { SearchControl } from 'leaflet-geosearch';
-import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { FileUploadComponent } from '../../components/file-upload/file-upload.component';
+import {Store} from '@ngrx/store';
+import {selectAllBlogs, selectBlogsViewStatus,} from '../../state/selectors/blog.selector';
+import {BlogActions} from '../../state/actions/blog.action';
+import {Router} from '@angular/router';
+import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
+import {catchError, distinctUntilChanged, map, of, Subscription} from 'rxjs';
+import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
+import {BASEMAP_URL, L_COORDINATE_MELBOURNE, MAP_MAX_ZOOM,} from '../../shared/constants/geo.constant';
+import {LocationService} from '../../services/location.service';
+import {SearchControl} from 'leaflet-geosearch';
+import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
+import {FileUploadComponent} from '../../components/file-upload/file-upload.component';
+import {ViewStatus} from "../../shared/constants/status.constant";
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-ignore
@@ -42,7 +36,7 @@ window.type = '';
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.css',
 })
-export class DiscoverComponent implements OnInit {
+export class DiscoverComponent implements OnInit, OnDestroy {
   // layer for drawn items
   drawnItemsLayer: L.FeatureGroup = L.featureGroup();
 
@@ -83,18 +77,25 @@ export class DiscoverComponent implements OnInit {
 
   // selector for the blogs
   selectBlogs$ = this.store.select(selectAllBlogs);
-  loading$: Observable<boolean> = this.store.select(selectBlogsLoading);
+  selectBlogViewStatus$ = this.store.select(selectBlogsViewStatus);
+
+  private subscription = new Subscription();
 
   constructor(
     private store: Store,
     private router: Router,
     private locationService: LocationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     console.log('DiscoverComponent initialized');
     // dispatch load action to load logs into store
     this.store.dispatch(BlogActions.loadBlogs());
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -122,7 +123,7 @@ export class DiscoverComponent implements OnInit {
    */
   private initializeMap(): void {
     // zoom the map to the user's current location
-    this.map.locate({ setView: true, maxZoom: MAP_MAX_ZOOM });
+    this.map.locate({setView: true, maxZoom: MAP_MAX_ZOOM});
 
     // init UI Layers
     this.createLegend();
@@ -140,13 +141,15 @@ export class DiscoverComponent implements OnInit {
     );
 
     // Subscribe to the markerClusterData$ observable
-    markerClusterData$.subscribe(markerData => {
-      try {
-        this.blogMarkerClusterGroupLayer.addLayers(markerData);
-      } catch (error) {
-        console.error('Error updating marker cluster:', error);
-      }
-    });
+    this.subscription.add(
+      markerClusterData$.subscribe(markerData => {
+        try {
+          this.blogMarkerClusterGroupLayer.addLayers(markerData);
+        } catch (error) {
+          console.error('Error updating marker cluster:', error);
+        }
+      })
+    );
   }
 
   /**
@@ -163,7 +166,12 @@ export class DiscoverComponent implements OnInit {
         div.style.backgroundColor = 'white';
         div.innerHTML = `
         <h4>Map Legend</h4>
-        <div><span style="background-color: red; height: 10px; width: 10px; display: inline-block; margin-right: 5px;"></span>Blogs</div>
+        <div>
+        <span style="background-color: red; height: 10px;
+            width: 10px; display: inline-block; margin-right: 5px;">
+        </span>
+        Blogs
+        </div>
       `;
         return div;
       },
@@ -243,4 +251,5 @@ export class DiscoverComponent implements OnInit {
     this.geoJsonDataLayer.addData(data);
     console.log('Received GeoJSON:', data);
   };
+  protected readonly ViewStatus = ViewStatus;
 }

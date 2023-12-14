@@ -12,19 +12,14 @@ export const {
   selectTotal: selectTotalProfiles,
 } = adapter.getSelectors(selectProfileState);
 
-export const selectProfilesLoading = createSelector(
-  selectProfileState,
-  (state: ProfileState) => state.loading
-);
-
 export const selectProfilesError = createSelector(
   selectProfileState,
   (state: ProfileState) => state.error
 );
 
-export const selectProfilesInitialized = createSelector(
+export const selectProfilesViewStatus = createSelector(
   selectProfileState,
-  (state: ProfileState) => state.initialized
+  (state: ProfileState) => state.viewStatus
 );
 
 export const selectProfileById = (id: string) =>

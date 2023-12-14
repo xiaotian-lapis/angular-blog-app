@@ -1,27 +1,32 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createReducer, on } from '@ngrx/store';
-import { ProfileActions, ProfileApiActions } from '../actions/profile.action';
-import { IProfile } from '../../shared/models/profile.model';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {createReducer, on} from '@ngrx/store';
+import {ProfileActions, ProfileApiActions} from '../actions/profile.action';
+import {IProfile} from '../../shared/models/profile.model';
+import {ViewStatus} from "../../shared/constants/status.constant";
 
 export interface ProfileState extends EntityState<IProfile> {
-  loading: boolean;
   error: any;
-  initialized: boolean;
+  viewStatus: ViewStatus;
 }
 
 export const adapter: EntityAdapter<IProfile> = createEntityAdapter();
 
 export const initialState: ProfileState = adapter.getInitialState({
-  loading: false,
   error: null,
-  initialized: false,
+  viewStatus: ViewStatus.Initial,
 });
 
 export const profileReducer = createReducer(
   initialState,
   on(ProfileActions.loadProfile, state => {
     console.log('loadProfile action triggered');
-    return { ...state, loading: true, error: null };
+    if (state.viewStatus === ViewStatus.Initial) {
+      return {...state, viewStatus: ViewStatus.Loading};
+    } else {
+      // if already initialized, just set view status to reloading,
+      // and prevent loading from backend api
+      return {...state, viewStatus: ViewStatus.Reloading};
+    }
   }),
   on(
     ProfileActions.updateProfile,
@@ -38,19 +43,18 @@ export const profileReducer = createReducer(
       console.log(
         'profileLoadedSuccess reducer triggered, and profile is null'
       );
-      return { ...state, loading: false };
+      return { ...state, viewStatus: ViewStatus.Success};
     }
     console.log(
       'profileLoadedSuccess reducer triggered, and profile is not null'
     );
     return adapter.addOne(profile, {
       ...state,
-      loading: false,
-      initialized: true,
+      viewStatus: ViewStatus.Success,
     });
   }),
   on(ProfileApiActions.profileLoadedError, (state, { error }) => {
     console.log('profileLoadedError reducer triggered');
-    return { ...state, loading: false, error };
+    return { ...state, error, viewStatus: ViewStatus.Failure };
   })
 );
