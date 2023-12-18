@@ -18,7 +18,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
   standalone: true,
   imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, NgIf, MatProgressBarModule],
   templateUrl: './blog-edit.component.html',
-  styleUrl: './blog-edit.component.css',
+  styleUrl: './blog-edit.component.scss',
 })
 export class BlogEditComponent implements OnInit, OnDestroy {
   @Input() blog?: IBlog;

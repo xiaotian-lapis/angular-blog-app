@@ -27,7 +27,7 @@ import {equals, or} from "../../shared/utils/ramda-functions.util";
     MatProgressBarModule,
   ],
   templateUrl: './blog-list.component.html',
-  styleUrl: './blog-list.component.css',
+  styleUrl: './blog-list.component.scss',
 })
 export class BlogListComponent implements OnInit {
   blogList$: Observable<IBlog[]> = this.store.select(selectAllBlogs);

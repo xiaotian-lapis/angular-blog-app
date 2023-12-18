@@ -40,7 +40,7 @@ window.type = '';
     JsonPipe,
   ],
   templateUrl: './discover.component.html',
-  styleUrl: './discover.component.css',
+  styleUrl: './discover.component.scss',
 })
 export class DiscoverComponent implements OnInit, OnDestroy {
   // layer for drawn items

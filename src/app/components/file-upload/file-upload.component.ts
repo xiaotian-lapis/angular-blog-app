@@ -16,7 +16,7 @@ import {MatInputModule} from '@angular/material/input';
     MatInputModule,
   ],
   templateUrl: './file-upload.component.html',
-  styleUrl: './file-upload.component.css',
+  styleUrl: './file-upload.component.scss',
 })
 export class FileUploadComponent {
   @Output()
