@@ -1,22 +1,33 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IBlog} from '../../shared/models/blog.model';
-import {FormBuilder, FormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {Store} from '@ngrx/store';
-import {BlogActions} from '../../state/actions/blog.action';
-import {ActivatedRoute, Router} from '@angular/router';
-import {selectAllBlogs} from '../../state/selectors/blog.selector';
-import {genRandomId} from '../../shared/utils/random.util';
-import {catchError, map, of, Subscription, tap} from 'rxjs';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {LocationService} from '../../services/location.service';
-import {NgIf} from "@angular/common";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { IBlog } from '../../shared/models/blog.model';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as BlogActions from '../../state/actions/blog.action';
+import { ActivatedRoute, Router } from '@angular/router';
+import { selectAllBlogs } from '../../state/selectors/blog.selector';
+import { genRandomId } from '../../shared/utils/random.util';
+import { catchError, map, of, Subscription, tap } from 'rxjs';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { LocationService } from '../../services/location.service';
+import { NgIf } from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-blog-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, NgIf, MatProgressBarModule],
+  imports: [
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    NgIf,
+    MatProgressBarModule,
+  ],
   templateUrl: './blog-edit.component.html',
   styleUrl: './blog-edit.component.scss',
 })
@@ -40,7 +51,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       },
       {
         nonNullable: true,
-      }
+      },
     ),
   });
   isloading = false;
@@ -51,20 +62,19 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private locationService: LocationService
-  ) {
-  }
+    private locationService: LocationService,
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.route.paramMap.subscribe(params => {
+      this.route.paramMap.subscribe((params) => {
         // get request parameter
         const blogId = params.get('id')!;
         // select blogs from store
         this.store
           .select(selectAllBlogs)
-          .pipe(map(blogs => blogs.find(blog => blog.id === blogId)))
-          .subscribe(blog => {
+          .pipe(map((blogs) => blogs.find((blog) => blog.id === blogId)))
+          .subscribe((blog) => {
             this.blog = blog;
             this.blogForm.patchValue({
               title: blog?.title,
@@ -73,7 +83,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
               author: blog?.author,
             });
           });
-      })
+      }),
     );
   }
 
@@ -90,15 +100,15 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       this.locationService
         .getPosition()
         .pipe(
-          tap(pos => {
+          tap((pos) => {
             console.log(`Position get!: ${pos.lng} ${pos.lat}`);
           }),
-          catchError(err => {
+          catchError((err) => {
             console.error('Error getting location', err);
             return of(undefined);
-          })
+          }),
         )
-        .subscribe(pos => {
+        .subscribe((pos) => {
           const blogData: IBlog = {
             id: this.blog?.id || genRandomId(),
             title: this.blogForm.value.title || '',
@@ -123,16 +133,16 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
           if (this.blog) {
             console.log('update');
-            this.store.dispatch(BlogActions.updateBlog({...blogData}));
+            this.store.dispatch(BlogActions.updateBlog({ ...blogData }));
           } else {
             console.log('add');
-            this.store.dispatch(BlogActions.addBlog({...blogData}));
+            this.store.dispatch(BlogActions.addBlog({ ...blogData }));
           }
 
           // Jump back to the home page
           this.isloading = false;
           this.router.navigate(['/home']);
-        })
+        }),
     );
   }
 

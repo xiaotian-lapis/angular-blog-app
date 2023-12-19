@@ -1,27 +1,38 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet-draw';
 import 'leaflet-measure';
-import {Store} from '@ngrx/store';
-import {selectAllBlogs, selectBlogsViewStatus,} from '../../state/selectors/blog.selector';
-import {BlogActions} from '../../state/actions/blog.action';
-import {Router} from '@angular/router';
-import {LeafletMarkerClusterModule} from '@asymmetrik/ngx-leaflet-markercluster';
-import {catchError, distinctUntilChanged, map, of, Subscription} from 'rxjs';
-import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
-import {BASEMAP_URL, L_COORDINATE_MELBOURNE, MAP_MAX_ZOOM,} from '../../shared/constants/geo.constant';
-import {LocationService} from '../../services/location.service';
-import {SearchControl} from 'leaflet-geosearch';
-import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
-import {FileUploadComponent} from '../../components/file-upload/file-upload.component';
-import {ViewStatus} from "../../shared/constants/status.constant";
-import {equals, or} from "../../shared/utils/ramda-functions.util";
-import {blogMarkerIcon, blueMarkerIcon, redMarkerIcon} from "../../shared/resource/map/marker-icon.resource";
-import {CoordinatesControl} from "./map-controls/coordinates.control";
-import {measureControl} from "./map-controls/measure.control";
-import {LegendControl} from "./map-controls/legend.control";
+import { Store } from '@ngrx/store';
+import {
+  selectAllBlogs,
+  selectBlogsViewStatus,
+} from '../../state/selectors/blog.selector';
+import * as BlogActions from '../../state/actions/blog.action';
+import { Router } from '@angular/router';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
+import { catchError, distinctUntilChanged, map, of, Subscription } from 'rxjs';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import {
+  BASEMAP_URL,
+  L_COORDINATE_MELBOURNE,
+  MAP_MAX_ZOOM,
+} from '../../shared/constants/geo.constant';
+import { LocationService } from '../../services/location.service';
+import { SearchControl } from 'leaflet-geosearch';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { FileUploadComponent } from '../../components/file-upload/file-upload.component';
+import { ViewStatus } from '../../shared/constants/status.constant';
+import { equals, or } from '../../shared/utils/ramda-functions.util';
+import {
+  blogMarkerIcon,
+  blueMarkerIcon,
+  redMarkerIcon,
+} from '../../shared/resource/map/marker-icon.resource';
+import { CoordinatesControl } from './map-controls/coordinates.control';
+import { measureControl } from './map-controls/measure.control';
+import { LegendControl } from './map-controls/legend.control';
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-expect-error - fix rect draw issue
@@ -87,9 +98,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private router: Router,
-    private locationService: LocationService
-  ) {
-  }
+    private locationService: LocationService,
+  ) {}
 
   ngOnInit(): void {
     console.log('DiscoverComponent initialized');
@@ -134,7 +144,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
    */
   private initializeMap(): void {
     // zoom the map to the user's current location
-    this.map.locate({setView: true, maxZoom: 15});
+    this.map.locate({ setView: true, maxZoom: 15 });
 
     // init UI Layers
     this.createLegend();
@@ -145,23 +155,23 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
     // convert the blogs to marker observables
     const markerClusterData$ = this.selectBlogs$.pipe(
-      map(blogs => this.transformBlogsToMarkers(blogs)),
+      map((blogs) => this.transformBlogsToMarkers(blogs)),
       distinctUntilChanged(),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error processing blog data:', error);
         return of([]);
-      })
+      }),
     );
 
     // Subscribe to the markerClusterData$ observable
     this.subscription.add(
-      markerClusterData$.subscribe(markerData => {
+      markerClusterData$.subscribe((markerData) => {
         try {
           this.blogMarkerClusterGroupLayer.addLayers(markerData);
         } catch (error) {
           console.error('Error updating marker cluster:', error);
         }
-      })
+      }),
     );
   }
 
@@ -215,7 +225,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
    * @private
    */
   private transformBlogsToMarkers(blogs: any[]): L.Layer[] {
-    return blogs.map(blog => {
+    return blogs.map((blog) => {
       const popupContent = `
               <h3>${blog.title}</h3>
               <strong>By: ${blog.author}</strong>
@@ -233,7 +243,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       blogMarker.on('popupopen', () => {
         const button = document.getElementById(`view-blog-${blog.id}`);
         button?.addEventListener('click', () => {
-          this.router.navigate(['/blog', blog.id]).then(r => r);
+          this.router.navigate(['/blog', blog.id]).then((r) => r);
         });
       });
 

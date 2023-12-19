@@ -1,11 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {AsyncPipe, DatePipe, Location, NgIf} from '@angular/common';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {selectAllProfiles, selectProfileById, selectProfilesViewStatus,} from '../../state/selectors/profile.selector';
-import {IProfile} from '../../shared/models/profile.model';
-import {ProfileActions} from '../../state/actions/profile.action';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AsyncPipe, DatePipe, Location, NgIf } from '@angular/common';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import {
+  selectAllProfiles,
+  selectProfileById,
+  selectProfilesViewStatus,
+} from '../../state/selectors/profile.selector';
+import { IProfile } from '../../shared/models/profile.model';
+import * as ProfileActions from '../../state/actions/profile.action';
 
 @Component({
   selector: 'app-profile',
@@ -41,15 +50,14 @@ export class ProfileComponent implements OnInit {
   // temporary hard code profile id
   private profileId: string = '1';
   profile$: Observable<IProfile | undefined> = this.store.select(
-    selectProfileById(this.profileId)
+    selectProfileById(this.profileId),
   );
 
   constructor(
     private readonly location: Location,
     private fb: FormBuilder,
-    private store: Store
-  ) {
-  }
+    private store: Store,
+  ) {}
 
   ngOnInit(): void {
     // dispatch load action to load logs into store
@@ -58,7 +66,7 @@ export class ProfileComponent implements OnInit {
     console.log('load profile done');
     const profiles$ = this.store.select(selectAllProfiles);
     console.log('select all profiles');
-    profiles$.pipe().subscribe(profiles => {
+    profiles$.pipe().subscribe((profiles) => {
       if (profiles.length > 0) {
         // prefill form with profile
         this.profileForm.patchValue(profiles[0]);
