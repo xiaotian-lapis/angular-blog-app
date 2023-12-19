@@ -1,17 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {IBlog} from '../../shared/models/blog.model';
-import {Observable} from 'rxjs';
-import {selectAllBlogs, selectBlogsViewStatus,} from '../../state/selectors/blog.selector';
-import {Store} from '@ngrx/store';
-import {BlogActions} from '../../state/actions/blog.action';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {ViewStatus} from "../../shared/constants/status.constant";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {equals, or} from "../../shared/utils/ramda-functions.util";
+import { Component, OnInit } from '@angular/core';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { IBlog } from '../../shared/models/blog.model';
+import { Observable } from 'rxjs';
+import {
+  selectAllBlogs,
+  selectBlogsViewStatus,
+} from '../../state/selectors/blog.selector';
+import { Store } from '@ngrx/store';
+import * as BlogActions from '../../state/actions/blog.action';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { ViewStatus } from '../../shared/constants/status.constant';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { equals, or } from '../../shared/utils/ramda-functions.util';
 
 @Component({
   selector: 'app-blog-list',
@@ -32,14 +35,15 @@ import {equals, or} from "../../shared/utils/ramda-functions.util";
 export class BlogListComponent implements OnInit {
   blogList$: Observable<IBlog[]> = this.store.select(selectAllBlogs);
 
-  viewStatus$: Observable<ViewStatus> = this.store.select(selectBlogsViewStatus);
+  viewStatus$: Observable<ViewStatus> = this.store.select(
+    selectBlogsViewStatus,
+  );
   protected readonly ViewStatus = ViewStatus;
 
   protected readonly equals = equals;
   protected readonly or = or;
 
-  constructor(private store: Store) {
-  }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     // dispatch load action to load logs into store
@@ -54,7 +58,7 @@ export class BlogListComponent implements OnInit {
     this.store.dispatch(
       BlogActions.removeBlog({
         id: blogId,
-      })
+      }),
     );
   }
 }
