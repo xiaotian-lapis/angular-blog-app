@@ -1,5 +1,5 @@
 import * as L from 'leaflet';
-import { redMarkerIcon } from '../../shared/resource/map/marker-icon.resource';
+import { redMarkerIcon } from '../../shared/ui/map-icon/marker-icon.resource';
 
 // @ts-expect-error - measure plugin doesn't have @types for angular 17
 export const measureControl = L.control.measure({

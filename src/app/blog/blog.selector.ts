@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { adapter, IBlogState } from './blog.reducer';
-import { IBlog } from '../shared/models/blog.model';
+import { IBlog } from './blog.model';
 import { BLOGS_STATE_NAME } from '../shared/constants/state.constant';
 
 export const selectBlogState =

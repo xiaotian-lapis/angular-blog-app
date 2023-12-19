@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IBlog } from '../shared/models/blog.model';
+import { IBlog } from './blog.model';
 
 /**
  * Blog Actions

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { IBlog } from '../../shared/models/blog.model';
+import { IBlog } from '../blog.model';
 import { Observable } from 'rxjs';
 import { selectAllBlogs, selectBlogsViewStatus } from '../blog.selector';
 import { Store } from '@ngrx/store';

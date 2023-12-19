@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { IBlog } from '../shared/models/blog.model';
+import { IBlog } from './blog.model';
 import * as BlogActions from './blog.action';
 import { ViewStatus } from '../shared/constants/status.constant';
 import { equals, isNil } from '../shared/utils/ramda-functions.util';

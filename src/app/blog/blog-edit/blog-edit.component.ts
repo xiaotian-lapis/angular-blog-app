@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { IBlog } from '../../shared/models/blog.model';
+import { IBlog } from '../blog.model';
 import {
   FormBuilder,
   FormControl,

@@ -1,6 +1,6 @@
-import {IProfile} from '../shared/models/profile.model';
-import {Observable, of} from 'rxjs';
-import {Injectable} from '@angular/core';
+import { IProfile } from './profile.model';
+import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',

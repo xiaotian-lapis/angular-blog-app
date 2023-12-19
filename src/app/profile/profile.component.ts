@@ -13,7 +13,7 @@ import {
   selectProfileById,
   selectProfilesViewStatus,
 } from './profile.selector';
-import { IProfile } from '../shared/models/profile.model';
+import { IProfile } from './profile.model';
 import * as ProfileActions from './profile.action';
 import { IProfileState } from './profile.reducer';
 

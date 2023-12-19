@@ -26,7 +26,7 @@ import {
   blogMarkerIcon,
   blueMarkerIcon,
   redMarkerIcon,
-} from '../shared/resource/map/marker-icon.resource';
+} from '../shared/ui/map-icon/marker-icon.resource';
 import { CoordinatesControl } from './map-controls/coordinates.control';
 import { measureControl } from './map-controls/measure.control';
 import { LegendControl } from './map-controls/legend.control';
@@ -65,10 +65,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   // GeoJson data layer
   geoJsonDataLayer = L.geoJson();
 
-  // map instance
+  // map-icon instance
   map!: L.Map;
 
-  // map options
+  // map-icon options
   options = {
     layers: [
       L.tileLayer(BASEMAP_URL, {
@@ -117,12 +117,12 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Hook of map ready event
+   * Hook of map-icon ready event
    *
-   * @param {L.Map} map - The Leaflet map object from html event input.
+   * @param {L.Map} map - The Leaflet map-icon object from html event input.
    */
   onMapReady(map: L.Map) {
-    console.log('map ready', map);
+    console.log('map-icon ready', map);
     this.map = map;
     this.initializeMap();
   }
@@ -136,10 +136,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   };
 
   /**
-   * Initialize the map
+   * Initialize the map-icon
    */
   private initializeMap(): void {
-    // zoom the map to the user's current location
+    // zoom the map-icon to the user's current location
     this.map.locate({ setView: true, maxZoom: 15 });
 
     // init UI Layers
@@ -172,14 +172,14 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Create the legend for the map
+   * Create the legend for the map-icon
    */
   private createLegend(): void {
     this.map.addControl(new LegendControl());
   }
 
   /**
-   * Create the scale bar for the map
+   * Create the scale bar for the map-icon
    * @private
    */
   private createScale(): void {
@@ -187,7 +187,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Creates a measure control and adds it to the map.
+   * Creates a measure control and adds it to the map-icon.
    *
    * @private
    */
