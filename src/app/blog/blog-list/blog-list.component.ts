@@ -31,16 +31,14 @@ import { IBlogState } from '../blog.reducer';
   styleUrl: './blog-list.component.scss',
 })
 export class BlogListComponent implements OnInit {
+  protected readonly ViewStatus = ViewStatus;
+  protected readonly equals = equals;
+  protected readonly or = or;
   private blogStore = inject(Store<IBlogState>);
-
   blogList$: Observable<IBlog[]> = this.blogStore.select(selectAllBlogs);
   viewStatus$: Observable<ViewStatus> = this.blogStore.select(
     selectBlogsViewStatus,
   );
-
-  protected readonly ViewStatus = ViewStatus;
-  protected readonly equals = equals;
-  protected readonly or = or;
 
   ngOnInit(): void {
     // dispatch load action to load logs into store

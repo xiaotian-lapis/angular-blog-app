@@ -2,7 +2,7 @@
   <!-- Title Field -->
   <mat-form-field>
     <mat-label>Title:</mat-label>
-    <input formControlName="title" matInput placeholder="Enter title"/>
+    <input formControlName="title" matInput placeholder="Enter title" />
   </mat-form-field>
 
   <!-- Description Field -->
@@ -11,7 +11,8 @@
     <textarea
       formControlName="description"
       matInput
-      placeholder="Enter description"></textarea>
+      placeholder="Enter description"
+    ></textarea>
   </mat-form-field>
 
   <!-- Content Field -->
@@ -20,16 +21,14 @@
     <textarea
       formControlName="content"
       matInput
-      placeholder="Enter content"></textarea>
+      placeholder="Enter content"
+    ></textarea>
   </mat-form-field>
 
   <!-- Author Field -->
   <mat-form-field>
     <mat-label>Author:</mat-label>
-    <input
-      formControlName="author"
-      matInput
-      placeholder="Enter author name"/>
+    <input formControlName="author" matInput placeholder="Enter author name" />
   </mat-form-field>
 
   <!-- Buttons -->
@@ -41,5 +40,4 @@
     <button color="primary" mat-raised-button type="submit">Submit</button>
     <button (click)="goBack()" mat-button>Go back</button>
   </div>
-
 </form>

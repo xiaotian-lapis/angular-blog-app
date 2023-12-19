@@ -52,22 +52,14 @@ window.type = '';
   styleUrl: './discover.component.scss',
 })
 export class DiscoverComponent implements OnInit, OnDestroy {
-  private blogStore = inject(Store<IBlogState>);
-  private router = inject(Router);
-  private locationService = inject(LocationService);
-
   // layer for drawn items
   drawnItemsLayer: L.FeatureGroup = L.featureGroup();
-
   // blog marker cluster layer
   blogMarkerClusterGroupLayer: L.MarkerClusterGroup = L.markerClusterGroup();
-
   // GeoJson data layer
   geoJsonDataLayer = L.geoJson();
-
   // map-icon instance
   map!: L.Map;
-
   // map-icon options
   options = {
     layers: [
@@ -78,7 +70,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     zoom: 15,
     center: L_COORDINATE_MELBOURNE,
   };
-
   // leaflet draw options
   drawOptions = {
     draw: {
@@ -90,11 +81,14 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       featureGroup: this.drawnItemsLayer,
     },
   };
-
+  protected readonly ViewStatus = ViewStatus;
+  protected readonly equals = equals;
+  private blogStore = inject(Store<IBlogState>);
   // selector for the blog
   selectBlogs$ = this.blogStore.select(selectAllBlogs);
   selectBlogViewStatus$ = this.blogStore.select(selectBlogsViewStatus);
-  protected readonly ViewStatus = ViewStatus;
+  private router = inject(Router);
+  private locationService = inject(LocationService);
   private subscription = new Subscription();
 
   ngOnInit(): void {
@@ -246,7 +240,5 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       return blogMarker;
     });
   }
-
-  protected readonly equals = equals;
   protected readonly or = or;
 }

@@ -28,10 +28,8 @@ import { IProfileState } from './profile.reducer';
 export class ProfileComponent implements OnInit {
   private readonly location = inject(Location);
   private readonly profileStore = inject(Store<IProfileState>);
-  private readonly fb = inject(FormBuilder);
-
   viewStatus$ = this.profileStore.select(selectProfilesViewStatus);
-
+  private readonly fb = inject(FormBuilder);
   profileForm = this.fb.group({
     name: new FormControl<string>('', {
       validators: [Validators.required],
