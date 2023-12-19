@@ -238,8 +238,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       // attach event listener to the button for jumping to blog page
       blogMarker.on('popupopen', () => {
         const button = document.getElementById(`view-blog-${blog.id}`);
-        button?.addEventListener('click', () => {
-          this.router.navigate(['/blog', blog.id]).then((r) => r);
+        button?.addEventListener('click', async () => {
+          await this.router.navigate(['/blog/view', blog.id]).then((r) => r);
         });
       });
 

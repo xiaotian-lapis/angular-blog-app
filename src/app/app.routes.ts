@@ -5,47 +5,23 @@ export const routes: Routes = [
 
   {
     path: 'home',
-    loadChildren: () =>
-      import('./home/home-routing.module').then((m) => m.HomeRoutingModule),
+    loadChildren: () => import('./home/home.routes').then((m) => m.HOME_ROUTES),
   },
 
   {
-    path: 'blog/:id',
-    loadChildren: () =>
-      import('./blog/blog-content/blog-content-routing.module').then(
-        (m) => m.BlogContentRoutingModule,
-      ),
+    path: 'blog',
+    loadChildren: () => import('./blog/blog.routes').then((m) => m.BLOG_ROUTES),
   },
 
   {
     path: 'profile',
     loadChildren: () =>
-      import('./profile/profile-routing.module').then(
-        (m) => m.ProfileRoutingModule,
-      ),
-  },
-
-  {
-    path: 'edit-blog',
-    loadChildren: () =>
-      import('./blog/blog-edit/blog-edit-routing.module').then(
-        (m) => m.BlogEditRoutingModule,
-      ),
-  },
-
-  {
-    path: 'create-blog',
-    loadChildren: () =>
-      import('./blog/blog-edit/blog-edit-routing.module').then(
-        (m) => m.BlogEditRoutingModule,
-      ),
+      import('./profile/profile.routes').then((m) => m.PROFILE_ROUTES),
   },
 
   {
     path: 'discover',
     loadChildren: () =>
-      import('./discover/discover-routing.module').then(
-        (m) => m.DiscoverRoutingModule,
-      ),
+      import('./discover/discover.routes').then((m) => m.DISCOVER_ROUTES),
   },
 ];
