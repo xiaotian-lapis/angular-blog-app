@@ -2,10 +2,10 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe, Location } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { selectAllBlogs } from '../../state/selectors/blog.selector';
+import { selectAllBlogs } from '../blog.selector';
 import { map, Subscription } from 'rxjs';
 import { equals } from '../../shared/utils/ramda-functions.util';
-import { IBlogState } from '../../state/reducers/blog.reducer';
+import { IBlogState } from '../blog.reducer';
 
 @Component({
   selector: 'app-blog-content',

@@ -5,11 +5,8 @@ import 'leaflet.markercluster';
 import 'leaflet-draw';
 import 'leaflet-measure';
 import { Store } from '@ngrx/store';
-import {
-  selectAllBlogs,
-  selectBlogsViewStatus,
-} from '../../state/selectors/blog.selector';
-import * as BlogActions from '../../state/actions/blog.action';
+import { selectAllBlogs, selectBlogsViewStatus } from '../blog/blog.selector';
+import * as BlogActions from '../blog/blog.action';
 import { Router } from '@angular/router';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 import { catchError, distinctUntilChanged, map, of, Subscription } from 'rxjs';
@@ -18,22 +15,22 @@ import {
   BASEMAP_URL,
   L_COORDINATE_MELBOURNE,
   MAP_MAX_ZOOM,
-} from '../../shared/constants/geo.constant';
-import { LocationService } from '../../services/location.service';
+} from '../shared/constants/geo.constant';
+import { LocationService } from '../shared/services/location.service';
 import { SearchControl } from 'leaflet-geosearch';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
-import { FileUploadComponent } from '../../components/file-upload/file-upload.component';
-import { ViewStatus } from '../../shared/constants/status.constant';
-import { equals, or } from '../../shared/utils/ramda-functions.util';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ViewStatus } from '../shared/constants/status.constant';
+import { equals, or } from '../shared/utils/ramda-functions.util';
 import {
   blogMarkerIcon,
   blueMarkerIcon,
   redMarkerIcon,
-} from '../../shared/resource/map/marker-icon.resource';
+} from '../shared/resource/map/marker-icon.resource';
 import { CoordinatesControl } from './map-controls/coordinates.control';
 import { measureControl } from './map-controls/measure.control';
 import { LegendControl } from './map-controls/legend.control';
-import { IBlogState } from '../../state/reducers/blog.reducer';
+import { IBlogState } from '../blog/blog.reducer';
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-expect-error - fix rect draw issue
@@ -94,7 +91,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     },
   };
 
-  // selector for the blogs
+  // selector for the blog
   selectBlogs$ = this.blogStore.select(selectAllBlogs);
   selectBlogViewStatus$ = this.blogStore.select(selectBlogsViewStatus);
   protected readonly ViewStatus = ViewStatus;
@@ -152,7 +149,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.createCoordinates();
     this.createGeoSearch();
 
-    // convert the blogs to marker observables
+    // convert the blog to marker observables
     const markerClusterData$ = this.selectBlogs$.pipe(
       map((blogs) => this.transformBlogsToMarkers(blogs)),
       distinctUntilChanged(),

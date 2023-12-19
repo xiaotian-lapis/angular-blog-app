@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { PROFILE_STATE_NAME } from '../../shared/constants/state.constant';
-import { adapter, IProfileState } from '../reducers/profile.reducer';
+import { PROFILE_STATE_NAME } from '../shared/constants/state.constant';
+import { adapter, IProfileState } from './profile.reducer';
 
 export const selectProfileState =
   createFeatureSelector<IProfileState>(PROFILE_STATE_NAME);

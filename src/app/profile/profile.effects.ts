@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from './profile.service';
 import { catchError, map, mergeMap, of } from 'rxjs';
-import * as ProfileActions from '../actions/profile.action';
-import { selectProfilesViewStatus } from '../selectors/profile.selector';
-import { ViewStatus } from '../../shared/constants/status.constant';
-import { equals } from '../../shared/utils/ramda-functions.util';
+import * as ProfileActions from './profile.action';
+import { selectProfilesViewStatus } from './profile.selector';
+import { ViewStatus } from '../shared/constants/status.constant';
+import { equals } from '../shared/utils/ramda-functions.util';
 
 @Injectable()
 export class ProfileEffects {
   loadProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfileActions.loadProfile),
-      // select Initialized info from store to determine whether to load blogs from backend api
+      // select Initialized info from store to determine whether to load blog from backend api
       concatLatestFrom(() => this.store.select(selectProfilesViewStatus)),
       mergeMap(([_, viewStatus]) => {
         if (equals(viewStatus, ViewStatus.Reloading)) {
@@ -23,7 +23,7 @@ export class ProfileEffects {
           return of(ProfileActions.profileLoadedSuccess({ profile: null }));
         } else {
           console.log('not initialized, load profile from backend api');
-          // not initialized, load blogs from backend api
+          // not initialized, load blog from backend api
           return this.profileService.getProfile().pipe(
             map((profile) => {
               console.log('successful load profile: ', profile);

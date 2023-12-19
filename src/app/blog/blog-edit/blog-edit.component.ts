@@ -7,17 +7,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import * as BlogActions from '../../state/actions/blog.action';
+import * as BlogActions from '../blog.action';
 import { ActivatedRoute, Router } from '@angular/router';
-import { selectAllBlogs } from '../../state/selectors/blog.selector';
+import { selectAllBlogs } from '../blog.selector';
 import { genRandomId } from '../../shared/utils/random.util';
 import { catchError, map, of, Subscription, tap } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { LocationService } from '../../services/location.service';
+import { LocationService } from '../../shared/services/location.service';
 import { NgIf } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { IBlogState } from '../../state/reducers/blog.reducer';
+import { IBlogState } from '../blog.reducer';
 import { equals } from '../../shared/utils/ramda-functions.util';
 
 @Component({
@@ -71,7 +71,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       this.route.paramMap.subscribe((params) => {
         // get request parameter
         const blogId = params.get('id')!;
-        // select blogs from store
+        // select blog from store
         this.blogStore
           .select(selectAllBlogs)
           .pipe(map((blogs) => blogs.find((blog) => equals(blog.id, blogId))))

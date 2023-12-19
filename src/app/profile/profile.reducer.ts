@@ -1,9 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import * as ProfileActions from '../actions/profile.action';
-import { IProfile } from '../../shared/models/profile.model';
-import { ViewStatus } from '../../shared/constants/status.constant';
-import { equals, isNil } from '../../shared/utils/ramda-functions.util';
+import * as ProfileActions from './profile.action';
+import { IProfile } from '../shared/models/profile.model';
+import { ViewStatus } from '../shared/constants/status.constant';
+import { equals, isNil } from '../shared/utils/ramda-functions.util';
 
 export interface IProfileState extends EntityState<IProfile> {
   error: any;
