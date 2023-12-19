@@ -1,18 +1,19 @@
-import {createActionGroup, emptyProps, props} from '@ngrx/store';
-import {IProfile} from '../../shared/models/profile.model';
+import { createAction, props } from '@ngrx/store';
+import { IProfile } from '../../shared/models/profile.model';
 
-export const ProfileActions = createActionGroup({
-  source: 'Profile',
-  events: {
-    'Load Profile': emptyProps(),
-    'Update Profile': props<IProfile>(),
-  },
-});
+export const loadProfile = createAction('[Profile] Load Profile');
 
-export const ProfileApiActions = createActionGroup({
-  source: 'Profile API',
-  events: {
-    'Profile Loaded Success': props<{ profile: IProfile | null }>(),
-    'Profile Loaded Error': props<{ error: { message: string } }>(),
-  },
-});
+export const updateProfile = createAction(
+  '[Profile] Update Profile',
+  props<IProfile>(),
+);
+
+export const profileLoadedSuccess = createAction(
+  '[Profile API] Profile Loaded Success',
+  props<{ profile: IProfile | null }>(),
+);
+
+export const profileLoadedError = createAction(
+  '[Profile API] Profile Loaded Error',
+  props<{ error: { message: string } }>(),
+);
