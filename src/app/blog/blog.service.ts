@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { IBlog } from './blog.model';
 import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class BlogService {
   private apiUrl = `${environment.apiUrl}/blogs`;
 

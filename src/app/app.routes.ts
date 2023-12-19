@@ -9,6 +9,8 @@ import { provideEffects } from '@ngrx/effects';
 import { BlogEffects } from './blog/blog.effects';
 import { profileReducer } from './profile/profile.reducer';
 import { ProfileEffects } from './profile/profile.effects';
+import { ProfileService } from './profile/profile.service';
+import { BlogService } from './blog/blog.service';
 
 export const routes: Routes = [
   {
@@ -20,6 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     providers: [
+      BlogService,
       provideState({
         name: BLOGS_STATE_NAME,
         reducer: blogReducer,
@@ -50,6 +53,7 @@ export const routes: Routes = [
   {
     path: 'profile',
     providers: [
+      ProfileService,
       provideState({
         name: PROFILE_STATE_NAME,
         reducer: profileReducer,
