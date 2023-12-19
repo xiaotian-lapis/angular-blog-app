@@ -74,6 +74,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^15.2.0",
     "or": "^0.2.0",
     "prettier": "^3.1.1",
     "prettier-eslint": "^16.1.2",
@@ -81,5 +82,9 @@
     "schematics-scss-migrate": "^2.3.17",
     "typescript": "~5.2.2",
     "yarn": "^1.22.21"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,scss,html,md}": "prettier --write"
   }
 }
