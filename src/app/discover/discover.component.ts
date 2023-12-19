@@ -31,6 +31,7 @@ import { CoordinatesControl } from './map-controls/coordinates.control';
 import { measureControl } from './map-controls/measure.control';
 import { LegendControl } from './map-controls/legend.control';
 import { IBlogState } from '../blog/blog.reducer';
+import { centerBtnControl } from './map-controls/button.control';
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-expect-error - fix rect draw issue
@@ -142,6 +143,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.createMeasure();
     this.createCoordinates();
     this.createGeoSearch();
+    this.createButtons();
 
     // convert the blog to marker observables
     const markerClusterData$ = this.selectBlogs$.pipe(
@@ -207,6 +209,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     });
 
     this.map.addControl(searchControl);
+  }
+
+  private createButtons(): void {
+    this.map.addControl(centerBtnControl);
   }
 
   /**

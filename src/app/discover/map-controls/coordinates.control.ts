@@ -1,6 +1,9 @@
 import * as L from 'leaflet';
 
 export const CoordinatesControl = L.Control.extend({
+  options: {
+    position: 'bottomleft',
+  },
   onAdd: (map: L.Map) => {
     const container = L.DomUtil.create('div');
     map.addEventListener('mousemove', (e) => {
