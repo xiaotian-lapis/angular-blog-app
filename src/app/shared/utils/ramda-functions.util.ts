@@ -11,7 +11,7 @@
 import * as RB from 'rambda';
 // tslint:disable-next-line:import-blacklist
 import * as R from 'ramda';
-import {roundTo} from './math.util';
+import { roundTo } from './math.util';
 
 export const {
   and,
@@ -122,7 +122,8 @@ export const isStrNumber = (val: string): boolean => {
   return /^\d+$/.test(val);
 };
 
-const isStringNullOrNil = (val: string): boolean => equals('null', val) || equals('undefined', val) || isNil(val);
+const isStringNullOrNil = (val: string): boolean =>
+  equals('null', val) || equals('undefined', val) || isNil(val);
 export const isNilOrEmpty = either(isStringNullOrNil, isEmpty);
 export const propOrZero = propOr(0);
 
@@ -167,9 +168,13 @@ export const joinLeft = R.curry((f1, f2, t1, t2) => joinRight(f2, f1, t2, t1));
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/ramda/ramda/wiki/Cookbook#sort-a-list-by-array-of-props-if-first-prop-equivalent-sort-by-second-etc
-const firstTruthy = ([headItem, ...tailItem]) => reduce(either, headItem, tailItem);
-const makeComparator = (propName: string) => comparator((a, b) => lt(prop(propName, a), prop(propName, b)));
-export const sortByProps = curry((args: string[], list) => sort(firstTruthy(map(makeComparator, args)), list));
+const firstTruthy = ([headItem, ...tailItem]) =>
+  reduce(either, headItem, tailItem);
+const makeComparator = (propName: string) =>
+  comparator((a, b) => lt(prop(propName, a), prop(propName, b)));
+export const sortByProps = curry((args: string[], list) =>
+  sort(firstTruthy(map(makeComparator, args)), list),
+);
 export const capitalise = (text: string) => toUpper(head(text)) + drop(1, text);
 export const concatFlipped = flip(concat);
 export const notEquals = complement(equals);

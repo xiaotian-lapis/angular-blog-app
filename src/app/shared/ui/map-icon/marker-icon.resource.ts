@@ -1,4 +1,4 @@
-import * as L from "leaflet";
+import * as L from 'leaflet';
 
 export const redMarkerIcon = L.icon({
   iconUrl: './assets/red-marker.png',

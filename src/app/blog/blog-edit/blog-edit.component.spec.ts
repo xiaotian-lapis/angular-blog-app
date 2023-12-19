@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {BlogEditComponent} from './blog-edit.component';
+import { BlogEditComponent } from './blog-edit.component';
 
 describe('BlogEditComponent', () => {
   let component: BlogEditComponent;

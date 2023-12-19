@@ -2,9 +2,7 @@ import { IProfile } from './profile.model';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ProfileService {
   /**
    * Get profile from mock data

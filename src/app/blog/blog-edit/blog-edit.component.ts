@@ -34,15 +34,14 @@ import { equals } from '../../shared/utils/ramda-functions.util';
   styleUrl: './blog-edit.component.scss',
 })
 export class BlogEditComponent implements OnInit, OnDestroy {
+  @Input()
+  blog?: IBlog;
+  isloading = false;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private locationService = inject(LocationService);
   private blogStore = inject(Store<IBlogState>);
   private fb = inject(FormBuilder);
-
-  @Input()
-  blog?: IBlog;
-
   blogForm = this.fb.group({
     title: new FormControl<string>(this.blog?.title || '', {
       validators: [Validators.required],
@@ -63,7 +62,6 @@ export class BlogEditComponent implements OnInit, OnDestroy {
       },
     ),
   });
-  isloading = false;
   private subscription = new Subscription();
 
   ngOnInit() {

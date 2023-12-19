@@ -15,16 +15,15 @@ import { IBlogState } from '../blog.reducer';
   styleUrl: './blog-content.component.scss',
 })
 export class BlogContentComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private readonly location = inject(Location);
-  private blogStore = inject(Store<IBlogState>);
-
   blogContent = '';
   title = '';
   createdTime = new Date();
   updatedTime = new Date();
   blogAuthor = '';
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private readonly location = inject(Location);
+  private blogStore = inject(Store<IBlogState>);
   private readonly canGoBack: boolean;
 
   private subscription = new Subscription();
