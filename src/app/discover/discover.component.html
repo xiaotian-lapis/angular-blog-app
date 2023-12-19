@@ -1,0 +1,31 @@
+<div *ngIf="selectBlogViewStatus$ | async as viewStatus">
+  <div
+    *ngIf="
+      or(
+        equals(viewStatus, ViewStatus.Loading),
+        equals(viewStatus, ViewStatus.Reloading)
+      )
+    "
+    class="loading"
+  >
+    Loading blogs...
+  </div>
+</div>
+
+<app-geo-file-upload
+  (geoJsonParsed)="handleGeoJson($event)"
+></app-geo-file-upload>
+
+<div
+  (leafletDrawCreated)="onDrawCreated($event)"
+  (leafletMapReady)="onMapReady($event)"
+  [leafletDrawOptions]="drawOptions"
+  [leafletOptions]="options"
+  leaflet
+  leafletDraw
+  style="height: 80%"
+>
+  <div [leafletLayer]="drawnItemsLayer"></div>
+  <div [leafletLayer]="blogMarkerClusterGroupLayer"></div>
+  <div [leafletLayer]="geoJsonDataLayer"></div>
+</div>

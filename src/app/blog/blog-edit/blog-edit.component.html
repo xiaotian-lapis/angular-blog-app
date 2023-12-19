@@ -1,0 +1,43 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="blogForm">
+  <!-- Title Field -->
+  <mat-form-field>
+    <mat-label>Title:</mat-label>
+    <input formControlName="title" matInput placeholder="Enter title" />
+  </mat-form-field>
+
+  <!-- Description Field -->
+  <mat-form-field>
+    <mat-label>Description:</mat-label>
+    <textarea
+      formControlName="description"
+      matInput
+      placeholder="Enter description"
+    ></textarea>
+  </mat-form-field>
+
+  <!-- Content Field -->
+  <mat-form-field>
+    <mat-label>Content:</mat-label>
+    <textarea
+      formControlName="content"
+      matInput
+      placeholder="Enter content"
+    ></textarea>
+  </mat-form-field>
+
+  <!-- Author Field -->
+  <mat-form-field>
+    <mat-label>Author:</mat-label>
+    <input formControlName="author" matInput placeholder="Enter author name" />
+  </mat-form-field>
+
+  <!-- Buttons -->
+  <div *ngIf="isloading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-hint>Please wait for location service...</mat-hint>
+  </div>
+  <div>
+    <button color="primary" mat-raised-button type="submit">Submit</button>
+    <button (click)="goBack()" mat-button>Go back</button>
+  </div>
+</form>

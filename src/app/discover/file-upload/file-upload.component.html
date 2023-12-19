@@ -1,0 +1,21 @@
+<mat-form-field appearance="fill" class="file-upload-field">
+  <mat-label>{{ fileName || 'Select a GeoJSON file' }}</mat-label>
+  <input
+    [placeholder]="fileName ? fileName : 'No file selected'"
+    [value]="fileName"
+    matInput
+    readonly
+  />
+
+  <input
+    #fileUpload
+    (change)="onFileSelected($event)"
+    [accept]="requiredFileType"
+    style="display: none"
+    type="file"
+  />
+
+  <button (click)="fileUpload.click()" mat-icon-button matSuffix>
+    <mat-icon>attach_file</mat-icon>
+  </button>
+</mat-form-field>

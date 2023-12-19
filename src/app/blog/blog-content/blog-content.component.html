@@ -1,0 +1,19 @@
+<div class="content-container">
+  <div class="content-title">
+    <h1>{{ title }}</h1>
+    <hr />
+  </div>
+  <div class="content">
+    <p>
+      {{ blogContent }}
+    </p>
+  </div>
+  <div class="metadata">
+    <p>By: {{ blogAuthor }}</p>
+    <p>Published: {{ createdTime | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+    <p>Updated: {{ updatedTime | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+  </div>
+  <div class="button-group">
+    <button (click)="goBack()">Go Back</button>
+  </div>
+</div>

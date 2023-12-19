@@ -1,0 +1,35 @@
+/* Blog List Styles */
+.blog-list {
+  margin: 20px;
+}
+
+.blog-item {
+  margin-bottom: 10px;
+}
+
+/* Blog Title Styles */
+.blog-title a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.blog-title a:hover {
+  text-decoration: underline;
+}
+
+/* Blog Author Styles */
+.blog-author {
+  margin-top: 5px;
+  color: #777;
+}
+
+/* Blog Description Styles */
+.blog-description {
+  margin-top: 10px;
+}
+
+/* Blog Actions Styles */
+.blog-actions {
+  margin-top: 10px;
+}
