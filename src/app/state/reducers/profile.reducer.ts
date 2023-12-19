@@ -3,16 +3,16 @@ import { createReducer, on } from '@ngrx/store';
 import * as ProfileActions from '../actions/profile.action';
 import { IProfile } from '../../shared/models/profile.model';
 import { ViewStatus } from '../../shared/constants/status.constant';
-import { equals } from '../../shared/utils/ramda-functions.util';
+import { equals, isNil } from '../../shared/utils/ramda-functions.util';
 
-export interface ProfileState extends EntityState<IProfile> {
+export interface IProfileState extends EntityState<IProfile> {
   error: any;
   viewStatus: ViewStatus;
 }
 
 export const adapter: EntityAdapter<IProfile> = createEntityAdapter();
 
-export const initialState: ProfileState = adapter.getInitialState({
+export const initialState: IProfileState = adapter.getInitialState({
   error: null,
   viewStatus: ViewStatus.Initial,
 });
@@ -39,7 +39,7 @@ export const profileReducer = createReducer(
     },
   ),
   on(ProfileActions.profileLoadedSuccess, (state, { profile }) => {
-    if (profile === null) {
+    if (isNil(profile)) {
       // if incoming profile is null, just set loading state to false.
       console.log(
         'profileLoadedSuccess reducer triggered, and profile is null',

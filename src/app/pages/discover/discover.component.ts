@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
@@ -33,6 +33,7 @@ import {
 import { CoordinatesControl } from './map-controls/coordinates.control';
 import { measureControl } from './map-controls/measure.control';
 import { LegendControl } from './map-controls/legend.control';
+import { IBlogState } from '../../state/reducers/blog.reducer';
 
 // fix rect draw issue: https://github.com/Leaflet/Leaflet.draw/issues/1026
 // @ts-expect-error - fix rect draw issue
@@ -54,6 +55,10 @@ window.type = '';
   styleUrl: './discover.component.scss',
 })
 export class DiscoverComponent implements OnInit, OnDestroy {
+  private blogStore = inject(Store<IBlogState>);
+  private router = inject(Router);
+  private locationService = inject(LocationService);
+
   // layer for drawn items
   drawnItemsLayer: L.FeatureGroup = L.featureGroup();
 
@@ -90,21 +95,15 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   };
 
   // selector for the blogs
-  selectBlogs$ = this.store.select(selectAllBlogs);
-  selectBlogViewStatus$ = this.store.select(selectBlogsViewStatus);
+  selectBlogs$ = this.blogStore.select(selectAllBlogs);
+  selectBlogViewStatus$ = this.blogStore.select(selectBlogsViewStatus);
   protected readonly ViewStatus = ViewStatus;
   private subscription = new Subscription();
-
-  constructor(
-    private store: Store,
-    private router: Router,
-    private locationService: LocationService,
-  ) {}
 
   ngOnInit(): void {
     console.log('DiscoverComponent initialized');
     // dispatch load action to load logs into store
-    this.store.dispatch(BlogActions.loadBlogs());
+    this.blogStore.dispatch(BlogActions.loadBlogs());
   }
 
   ngOnDestroy(): void {

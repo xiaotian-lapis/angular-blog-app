@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,6 +15,7 @@ import {
 } from '../../state/selectors/profile.selector';
 import { IProfile } from '../../shared/models/profile.model';
 import * as ProfileActions from '../../state/actions/profile.action';
+import { IProfileState } from '../../state/reducers/profile.reducer';
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +26,11 @@ import * as ProfileActions from '../../state/actions/profile.action';
   providers: [DatePipe],
 })
 export class ProfileComponent implements OnInit {
-  viewStatus$ = this.store.select(selectProfilesViewStatus);
+  private readonly location = inject(Location);
+  private readonly profileStore = inject(Store<IProfileState>);
+  private readonly fb = inject(FormBuilder);
+
+  viewStatus$ = this.profileStore.select(selectProfilesViewStatus);
 
   profileForm = this.fb.group({
     name: new FormControl<string>('', {
@@ -49,22 +54,16 @@ export class ProfileComponent implements OnInit {
 
   // temporary hard code profile id
   private profileId: string = '1';
-  profile$: Observable<IProfile | undefined> = this.store.select(
+  profile$: Observable<IProfile | undefined> = this.profileStore.select(
     selectProfileById(this.profileId),
   );
-
-  constructor(
-    private readonly location: Location,
-    private fb: FormBuilder,
-    private store: Store,
-  ) {}
 
   ngOnInit(): void {
     // dispatch load action to load logs into store
     console.log('load profile');
-    this.store.dispatch(ProfileActions.loadProfile());
+    this.profileStore.dispatch(ProfileActions.loadProfile());
     console.log('load profile done');
-    const profiles$ = this.store.select(selectAllProfiles);
+    const profiles$ = this.profileStore.select(selectAllProfiles);
     console.log('select all profiles');
     profiles$.pipe().subscribe((profiles) => {
       if (profiles.length > 0) {
@@ -90,7 +89,7 @@ export class ProfileComponent implements OnInit {
     console.log(formValue);
 
     // update profile
-    this.store.dispatch(ProfileActions.updateProfile(formValue));
+    this.profileStore.dispatch(ProfileActions.updateProfile(formValue));
   }
 
   goBack() {

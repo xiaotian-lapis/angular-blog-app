@@ -1,10 +1,10 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {adapter, BlogState} from '../reducers/blog.reducer';
-import {IBlog} from '../../shared/models/blog.model';
-import {BLOGS_STATE_NAME} from '../../shared/constants/state.constant';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { adapter, IBlogState } from '../reducers/blog.reducer';
+import { IBlog } from '../../shared/models/blog.model';
+import { BLOGS_STATE_NAME } from '../../shared/constants/state.constant';
 
 export const selectBlogState =
-  createFeatureSelector<BlogState>(BLOGS_STATE_NAME);
+  createFeatureSelector<IBlogState>(BLOGS_STATE_NAME);
 
 export const {
   selectIds: selectBlogIds,
@@ -15,15 +15,15 @@ export const {
 
 export const selectBlogsError = createSelector(
   selectBlogState,
-  (state: BlogState) => state.error
+  (state: IBlogState) => state.error,
 );
 
 export const selectBlogsViewStatus = createSelector(
   selectBlogState,
-  (state: BlogState) => state.viewStatus
+  (state: IBlogState) => state.viewStatus,
 );
 
 export const selectBlogById = createSelector(
   selectBlogEntities,
-  (entities: any, props: { id: string }) => entities[props.id] as IBlog
+  (entities: any, props: { id: string }) => entities[props.id] as IBlog,
 );

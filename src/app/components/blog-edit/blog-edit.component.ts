@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { IBlog } from '../../shared/models/blog.model';
 import {
   FormBuilder,
@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { LocationService } from '../../services/location.service';
 import { NgIf } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { IBlogState } from '../../state/reducers/blog.reducer';
+import { equals } from '../../shared/utils/ramda-functions.util';
 
 @Component({
   selector: 'app-blog-edit',
@@ -32,7 +34,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrl: './blog-edit.component.scss',
 })
 export class BlogEditComponent implements OnInit, OnDestroy {
-  @Input() blog?: IBlog;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private locationService = inject(LocationService);
+  private blogStore = inject(Store<IBlogState>);
+  private fb = inject(FormBuilder);
+
+  @Input()
+  blog?: IBlog;
 
   blogForm = this.fb.group({
     title: new FormControl<string>(this.blog?.title || '', {
@@ -57,23 +66,15 @@ export class BlogEditComponent implements OnInit, OnDestroy {
   isloading = false;
   private subscription = new Subscription();
 
-  constructor(
-    private store: Store,
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private locationService: LocationService,
-  ) {}
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.subscription.add(
       this.route.paramMap.subscribe((params) => {
         // get request parameter
         const blogId = params.get('id')!;
         // select blogs from store
-        this.store
+        this.blogStore
           .select(selectAllBlogs)
-          .pipe(map((blogs) => blogs.find((blog) => blog.id === blogId)))
+          .pipe(map((blogs) => blogs.find((blog) => equals(blog.id, blogId))))
           .subscribe((blog) => {
             this.blog = blog;
             this.blogForm.patchValue({
@@ -87,12 +88,12 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     // gc
     this.subscription.unsubscribe();
   }
 
-  onSubmit(): void {
+  async onSubmit() {
     console.log(this.blogForm.value);
     this.isloading = true;
 
@@ -133,10 +134,10 @@ export class BlogEditComponent implements OnInit, OnDestroy {
 
           if (this.blog) {
             console.log('update');
-            this.store.dispatch(BlogActions.updateBlog({ ...blogData }));
+            this.blogStore.dispatch(BlogActions.updateBlog({ ...blogData }));
           } else {
             console.log('add');
-            this.store.dispatch(BlogActions.addBlog({ ...blogData }));
+            this.blogStore.dispatch(BlogActions.addBlog({ ...blogData }));
           }
 
           // Jump back to the home page
@@ -146,7 +147,7 @@ export class BlogEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  goBack(): void {
-    this.router.navigate(['/home']);
+  async goBack() {
+    await this.router.navigate(['/home']);
   }
 }

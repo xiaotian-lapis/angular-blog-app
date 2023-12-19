@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IBlog } from '../../shared/models/blog.model';
@@ -15,6 +15,7 @@ import { ViewStatus } from '../../shared/constants/status.constant';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { equals, or } from '../../shared/utils/ramda-functions.util';
+import { IBlogState } from '../../state/reducers/blog.reducer';
 
 @Component({
   selector: 'app-blog-list',
@@ -33,21 +34,20 @@ import { equals, or } from '../../shared/utils/ramda-functions.util';
   styleUrl: './blog-list.component.scss',
 })
 export class BlogListComponent implements OnInit {
-  blogList$: Observable<IBlog[]> = this.store.select(selectAllBlogs);
+  private blogStore = inject(Store<IBlogState>);
 
-  viewStatus$: Observable<ViewStatus> = this.store.select(
+  blogList$: Observable<IBlog[]> = this.blogStore.select(selectAllBlogs);
+  viewStatus$: Observable<ViewStatus> = this.blogStore.select(
     selectBlogsViewStatus,
   );
-  protected readonly ViewStatus = ViewStatus;
 
+  protected readonly ViewStatus = ViewStatus;
   protected readonly equals = equals;
   protected readonly or = or;
 
-  constructor(private store: Store) {}
-
   ngOnInit(): void {
     // dispatch load action to load logs into store
-    this.store.dispatch(BlogActions.loadBlogs());
+    this.blogStore.dispatch(BlogActions.loadBlogs());
   }
 
   /**
@@ -55,7 +55,7 @@ export class BlogListComponent implements OnInit {
    * @param blogId blog id
    */
   deleteBlog(blogId: string): void {
-    this.store.dispatch(
+    this.blogStore.dispatch(
       BlogActions.removeBlog({
         id: blogId,
       }),
