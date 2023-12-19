@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {DatePipe, Location} from '@angular/common';
-import {Store} from '@ngrx/store';
-import {selectAllBlogs} from '../../state/selectors/blog.selector';
-import {map, Subscription} from 'rxjs';
-import {equals} from "../../shared/utils/ramda-functions.util";
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { DatePipe, Location } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectAllBlogs } from '../../state/selectors/blog.selector';
+import { map, Subscription } from 'rxjs';
+import { equals } from '../../shared/utils/ramda-functions.util';
+import { IBlogState } from '../../state/reducers/blog.reducer';
 
 @Component({
   selector: 'app-blog-content',
@@ -14,6 +15,11 @@ import {equals} from "../../shared/utils/ramda-functions.util";
   styleUrl: './blog-content.component.scss',
 })
 export class BlogContentComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private readonly location = inject(Location);
+  private blogStore = inject(Store<IBlogState>);
+
   blogContent = '';
   title = '';
   createdTime = new Date();
@@ -23,28 +29,20 @@ export class BlogContentComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private readonly location: Location,
-    private store: Store
-  ) {
+  constructor() {
     this.canGoBack = !!this.router.getCurrentNavigation()?.previousNavigation;
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const blogId = params.get('id')!;
 
       // get blog from store
       this.subscription.add(
-        this.store
+        this.blogStore
           .select(selectAllBlogs)
-          .pipe(map(blogs => blogs.find(
-              blog => equals(blog.id, blogId)
-            ))
-          )
-          .subscribe(blog => {
+          .pipe(map((blogs) => blogs.find((blog) => equals(blog.id, blogId))))
+          .subscribe((blog) => {
             if (blog) {
               this.blogContent = blog.content;
               this.title = blog.title;
@@ -52,7 +50,7 @@ export class BlogContentComponent implements OnInit, OnDestroy {
               this.updatedTime = blog.updatedTime;
               this.blogAuthor = blog.author;
             }
-          })
+          }),
       );
     });
   }
@@ -73,7 +71,7 @@ export class BlogContentComponent implements OnInit, OnDestroy {
       // There's no previous navigation.
       // Here we decide where to go. For example, let's say the
       // upper level is the index page, so we go up one level.
-      this.router.navigate(['..'], {relativeTo: this.route});
+      this.router.navigate(['..'], { relativeTo: this.route });
     }
   }
 }
