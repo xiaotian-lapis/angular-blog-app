@@ -3,19 +3,16 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IBlog } from '../../shared/models/blog.model';
 import { Observable } from 'rxjs';
-import {
-  selectAllBlogs,
-  selectBlogsViewStatus,
-} from '../../state/selectors/blog.selector';
+import { selectAllBlogs, selectBlogsViewStatus } from '../blog.selector';
 import { Store } from '@ngrx/store';
-import * as BlogActions from '../../state/actions/blog.action';
+import * as BlogActions from '../blog.action';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ViewStatus } from '../../shared/constants/status.constant';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { equals, or } from '../../shared/utils/ramda-functions.util';
-import { IBlogState } from '../../state/reducers/blog.reducer';
+import { IBlogState } from '../blog.reducer';
 
 @Component({
   selector: 'app-blog-list',

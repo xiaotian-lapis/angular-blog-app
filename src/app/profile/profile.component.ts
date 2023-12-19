@@ -12,10 +12,10 @@ import {
   selectAllProfiles,
   selectProfileById,
   selectProfilesViewStatus,
-} from '../../state/selectors/profile.selector';
-import { IProfile } from '../../shared/models/profile.model';
-import * as ProfileActions from '../../state/actions/profile.action';
-import { IProfileState } from '../../state/reducers/profile.reducer';
+} from './profile.selector';
+import { IProfile } from '../shared/models/profile.model';
+import * as ProfileActions from './profile.action';
+import { IProfileState } from './profile.reducer';
 
 @Component({
   selector: 'app-profile',
