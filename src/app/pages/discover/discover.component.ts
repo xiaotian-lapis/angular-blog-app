@@ -9,7 +9,7 @@ import {
   selectAllBlogs,
   selectBlogsViewStatus,
 } from '../../state/selectors/blog.selector';
-import { BlogActions } from '../../state/actions/blog.action';
+import * as BlogActions from '../../state/actions/blog.action';
 import { Router } from '@angular/router';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 import { catchError, distinctUntilChanged, map, of, Subscription } from 'rxjs';

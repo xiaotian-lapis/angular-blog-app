@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { IBlog } from '../../shared/models/blog.model';
-import { BlogActions, BlogApiActions } from '../actions/blog.action';
+import * as BlogActions from '../actions/blog.action';
 import { ViewStatus } from '../../shared/constants/status.constant';
 import { equals, isNil } from '../../shared/utils/ramda-functions.util';
 
@@ -74,7 +74,7 @@ export const blogReducer = createReducer(
     console.log(state.entities);
     return adapter.removeOne(id, state);
   }),
-  on(BlogApiActions.blogsLoadedSuccess, (state, { blogs }) => {
+  on(BlogActions.blogsLoadedSuccess, (state, { blogs }) => {
     if (isNil(blogs)) {
       // if incoming blogs is null, just set loading state to false.
       console.log('blogsLoadedSuccess reducer triggered, and blogs is null');
@@ -87,7 +87,7 @@ export const blogReducer = createReducer(
       viewStatus: ViewStatus.Success,
     });
   }),
-  on(BlogApiActions.blogsLoadedError, (state, { error }) => {
+  on(BlogActions.blogsLoadedError, (state, { error }) => {
     console.log('blogsLoadedError reducer triggered');
     console.log(state.entities);
     return { ...state, error: error.message, viewStatus: ViewStatus.Failure };

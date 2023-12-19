@@ -14,7 +14,7 @@ import {
   selectProfilesViewStatus,
 } from '../../state/selectors/profile.selector';
 import { IProfile } from '../../shared/models/profile.model';
-import { ProfileActions } from '../../state/actions/profile.action';
+import * as ProfileActions from '../../state/actions/profile.action';
 import { IProfileState } from '../../state/reducers/profile.reducer';
 
 @Component({

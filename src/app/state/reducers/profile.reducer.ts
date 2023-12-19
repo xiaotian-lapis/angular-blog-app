@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { ProfileActions, ProfileApiActions } from '../actions/profile.action';
+import * as ProfileActions from '../actions/profile.action';
 import { IProfile } from '../../shared/models/profile.model';
 import { ViewStatus } from '../../shared/constants/status.constant';
 import { equals, isNil } from '../../shared/utils/ramda-functions.util';
@@ -38,7 +38,7 @@ export const profileReducer = createReducer(
       return adapter.updateOne({ id, changes }, state);
     },
   ),
-  on(ProfileApiActions.profileLoadedSuccess, (state, { profile }) => {
+  on(ProfileActions.profileLoadedSuccess, (state, { profile }) => {
     if (isNil(profile)) {
       // if incoming profile is null, just set loading state to false.
       console.log(
@@ -54,7 +54,7 @@ export const profileReducer = createReducer(
       viewStatus: ViewStatus.Success,
     });
   }),
-  on(ProfileApiActions.profileLoadedError, (state, { error }) => {
+  on(ProfileActions.profileLoadedError, (state, { error }) => {
     console.log('profileLoadedError reducer triggered');
     return { ...state, error, viewStatus: ViewStatus.Failure };
   }),

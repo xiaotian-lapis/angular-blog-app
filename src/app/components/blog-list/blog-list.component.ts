@@ -8,7 +8,7 @@ import {
   selectBlogsViewStatus,
 } from '../../state/selectors/blog.selector';
 import { Store } from '@ngrx/store';
-import { BlogActions } from '../../state/actions/blog.action';
+import * as BlogActions from '../../state/actions/blog.action';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ViewStatus } from '../../shared/constants/status.constant';

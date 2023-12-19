@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { BlogActions } from '../../state/actions/blog.action';
+import * as BlogActions from '../../state/actions/blog.action';
 import { ActivatedRoute, Router } from '@angular/router';
 import { selectAllBlogs } from '../../state/selectors/blog.selector';
 import { genRandomId } from '../../shared/utils/random.util';
